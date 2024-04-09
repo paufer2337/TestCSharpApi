@@ -5,7 +5,7 @@ public static class CheckAcl
     private static List<DynObject>? rules;
     public static bool on;
 
-    public static async void Start()
+    public static async Task Start()
     {
         while (on)
         {

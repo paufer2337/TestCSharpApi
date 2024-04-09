@@ -66,7 +66,7 @@ function addManipulationMethods(elements) {
 // so we can do: $$('div').click(e => alert('I am a div'));
 
 const eventTypes = Object.getOwnPropertyNames(window)
-  .filter(x => x.slice(0, 2) === 'on')
+  .filter(x => x.startsWith('on'))
   .map(x => x.slice(2));
 
 function addDelegatedEventMethods(elements, cssSelector) {
