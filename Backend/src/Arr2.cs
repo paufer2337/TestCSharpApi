@@ -1,4 +1,4 @@
-public partial class Dynamic
+public partial class Arr
 {
 
     private object TryDynamic(object value)
@@ -13,12 +13,22 @@ public partial class Dynamic
         }
     }
 
-    public int Length()
+    public List<object> ToList()
     {
-        return arrMemory.Count();
+        return memory.ToList();
     }
 
-    public Dynamic Slice(int start, int end)
+    public object[] ToArray()
+    {
+        return memory.ToArray();
+    }
+
+    public int Length()
+    {
+        return memory.Count();
+    }
+
+    public Arr Slice(int start, int end)
     {
         start = start < 0 ? Length() + start : start;
         start = start < 0 ? 0 : start;
@@ -27,52 +37,52 @@ public partial class Dynamic
         var collected = new List<object>();
         for (var i = start; i < end; i++)
         {
-            collected.Add(arrMemory[i]);
+            collected.Add(memory[i]);
         }
-        return new Dynamic(collected);
+        return new Arr(collected.ToArray());
     }
 
-    public Dynamic Slice(int start)
+    public Arr Slice(int start)
     {
         return Slice(start, Length());
     }
 
-    public Dynamic Slice()
+    public Arr Slice()
     {
         return Slice(0, Length());
     }
 
-    public Dynamic Splice(int start, int deleteCount, params object[] values)
+    public Arr Splice(int start, int deleteCount, params object[] values)
     {
         start = start < 0 ? Length() + start : start;
         start = start < 0 ? 0 : start;
         var removed = new List<object>();
         for (var i = 0; i < deleteCount; i++)
         {
-            removed.Add(arrMemory[start]);
-            arrMemory.RemoveAt(start);
+            removed.Add(memory[start]);
+            memory.RemoveAt(start);
         }
         for (var i = values.Length - 1; i >= 0; i--)
         {
-            arrMemory.Insert(start, values[i]);
+            memory.Insert(start, values[i]);
         }
-        return new Dynamic(removed);
+        return new Arr(removed.ToArray());
     }
 
-    public Dynamic ToSpliced(int start, int deleteCount, params object[] values)
+    public Arr ToSpliced(int start, int deleteCount, params object[] values)
     {
         var copy = Slice();
         copy.Splice(start, deleteCount, values);
         return copy;
     }
 
-    public Dynamic Reverse()
+    public Arr Reverse()
     {
-        arrMemory.Reverse();
+        memory.Reverse();
         return this;
     }
 
-    public Dynamic ToReversed()
+    public Arr ToReversed()
     {
         return Slice().Reverse();
     }
@@ -101,16 +111,16 @@ public partial class Dynamic
 
     public int IndexOf(object value)
     {
-        return arrMemory.IndexOf(value);
+        return memory.IndexOf(value);
     }
 
     public int LastIndexOf(object value)
     {
-        return arrMemory.LastIndexOf(value);
+        return memory.LastIndexOf(value);
     }
 
     public bool Includes(object value)
     {
-        return arrMemory.Contains(value);
+        return memory.Contains(value);
     }
 }

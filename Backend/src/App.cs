@@ -72,7 +72,7 @@ arr.Push(
 );
 
 Console.WriteLine(arr);*/
-
+/*
 dynamic a = new Dynamic(new { job = "CEO", salary = 50000 });
 
 a.Merge(new { footPrint = "large", height = 1.84 });
@@ -105,7 +105,7 @@ Log.Out("SLICE1,3", b.Slice(1, 3));
 b.Reverse();
 Log.Out("REVERSED", b);
 Log.Out("SLICE(1,3)", b.Slice(1, 3));
-
+*/
 
 
 //Console.WriteLine(b.Map(x => x));
@@ -128,7 +128,7 @@ Log.Out("CHAIN",
 );*/
 
 //Log.Out(b.Map("(x,i)=>x+i+'hejsan'").Filter("x=>x.Contains('3')"));
-
+/*
 var p = Dynamic.Prepare;
 var searchFor = "då";
 
@@ -178,3 +178,22 @@ dynamic j = new Dynamic(new[] { "hej", "hopp", "nu" });
 Holder j2 = j._();
 
 Log.Out(j2.Map((int x) => x + " coolt!"));
+*/
+/// From this I would say - let most of Dynamic be NON-dynamic
+/// Have a property that is dynamic instead :) 
+// That we can use for fancy adding keys etc.
+// aDynamic.c_.firstName;
+// or divide into two classes keep object dynamic
+// but not Array...
+
+var x = new Arr(new[] { "Anna", "Beata", "Greta" });
+
+x[3] = "Hej";
+
+x = x.Map((string x) => x + " Svensson");
+x = x.Map((string x, int i) => x + " " + i);
+
+foreach (var y in x)
+{
+    Log.Out(y);
+}

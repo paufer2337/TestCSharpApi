@@ -1,15 +1,15 @@
 using System.Linq.Expressions;
 
-partial class Dynamic
+partial class Arr
 {
     // Aliases with classic C#/Linq naming
     public Func<object, bool> Contains => Includes;
-    public Func<dynamic, dynamic> Select => Map;
-    public Func<dynamic, dynamic> Where => Filter;
-    public Func<dynamic, dynamic> First => Find;
-    public Func<dynamic, dynamic> Last => FindLast;
-    public Func<dynamic, bool> Any => Some;
-    public Func<dynamic, bool> All => Every;
+    public Func<Expression, Dynamic, dynamic> Select => Map;
+    public Func<Expression, Dynamic, dynamic> Where => Filter;
+    public Func<Expression, Dynamic, dynamic> First => Find;
+    public Func<Expression, Dynamic, dynamic> Last => FindLast;
+    public Func<Expression, Dynamic, bool> Any => Some;
+    public Func<Expression, Dynamic, bool> All => Every;
 
     public dynamic Aggregate(dynamic func)
     {
@@ -34,27 +34,5 @@ partial class Dynamic
         // Not really an alias 
         // - since Aggregate uses a reversed parameter order
         return ReduceRight(func, seed);
-    }
-
-    // Experiment
-    public Holder _()
-    {
-        return new Holder(this);
-    }
-}
-
-public class Holder
-{
-    private Dynamic? dRef;
-
-    public Holder(Dynamic dReff)
-    {
-        dRef = dReff;
-    }
-
-    public dynamic Map(Expression lambda, object dependencies = null!)
-    {
-        var prepared = Dynamic.Prepare(lambda, dependencies);
-        return dRef!.Map(prepared);
     }
 }

@@ -95,11 +95,6 @@ public partial class Dynamic : DynamicObject
         );
     }
 
-    public List<object> ToList()
-    {
-        return arrMemory.ToList();
-    }
-
     public object[] ToArray()
     {
         return arrMemory.ToArray();
