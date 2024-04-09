@@ -1,40 +1,13 @@
 using System.Dynamic;
-using System.Linq.Expressions;
-using AgileObjects.ReadableExpressions;
+using System.Collections;
 using Newtonsoft.Json;
-
-public record FuncWrapper(
-    string Action,
-    Func<object, object> FuncObjObj = null!,
-    Func<object, bool> FuncObjBool = null!,
-    Func<object, int, object> FuncObjIntObj = null!
-);
+using System.Linq.Expressions;
 
 public partial class Dynamic : DynamicObject
 {
 
     private Dictionary<string, object> propMemory = new Dictionary<string, object>();
     private List<object> arrMemory = new List<object>();
-
-    public static object jMap(Dynamic dynObj, Expression expression)
-    {
-        return dynObj.Map(expression.ToReadableString());
-    }
-
-    public static FuncWrapper xMap(Func<object, object> func)
-    {
-        return new FuncWrapper("map", func);
-    }
-
-    public static FuncWrapper xMap(Func<object, int, object> func)
-    {
-        return new FuncWrapper("mapI", null!, null!, func);
-    }
-
-    public static FuncWrapper Filter(Func<object, bool> func)
-    {
-        return new FuncWrapper("filter", null!, func);
-    }
 
     public Dynamic() { }
 
@@ -77,26 +50,42 @@ public partial class Dynamic : DynamicObject
         return true;
     }
 
+    public bool HasKey(string key)
+    {
+        return propMemory.ContainsKey(key);
+    }
+
     public DynamicObject Merge(object values)
     {
-        if (values is IEnumerable<object>)
+        try
         {
-            foreach (var value in (IEnumerable<object>)values)
+            if (values as IEnumerable != null && !(values is String))
             {
-                arrMemory.Add(value);
+                foreach (var value in (values as IEnumerable)!)
+                {
+                    arrMemory.Add(value);
+                }
             }
+            else
+            {
+                var json = JsonConvert.SerializeObject(values);
+                var dict = JsonConvert.DeserializeObject
+                    <Dictionary<string, dynamic>>(json);
+                foreach (var item in dict!)
+                {
+                    propMemory[item.Key] = item.Value;
+                }
+            }
+            return this;
         }
-        else
+        catch (Exception)
         {
-            var json = JsonConvert.SerializeObject(values);
-            var dict = JsonConvert.DeserializeObject
-                <Dictionary<string, dynamic>>(json);
-            foreach (var item in dict!)
-            {
-                propMemory[item.Key] = item.Value;
-            }
+            throw new Exception(
+                "Can not create/merge an instance of Dynamic from ("
+                + values.GetType().Name + ")"
+                + JsonConvert.SerializeObject(values)
+            );
         }
-        return this;
     }
 
     public override string ToString()

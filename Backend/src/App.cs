@@ -73,10 +73,6 @@ arr.Push(
 
 Console.WriteLine(arr);*/
 
-using System.Linq.Expressions;
-using AgileObjects.ReadableExpressions;
-using ExtensionMethods;
-
 dynamic a = new Dynamic(new { job = "CEO", salary = 50000 });
 
 a.Merge(new { footPrint = "large", height = 1.84 });
@@ -98,7 +94,7 @@ dynamic b = new Dynamic(new[] { "Hej", "Hejdå" });
 b.Push("Really hejdå", "For the last time");
 
 b.Unshift("Prehej", "Almost ready for hej");
-
+Log.Out("-----b---", b);
 Log.Out("POP", b.Pop());
 Log.Out("SHIFT", b.Shift());
 
@@ -140,3 +136,45 @@ Log.Out("MAP+FILTER", b
     .Map(p((string x, int i) => x + i + "hej"))
     .Filter(p((string x) => x.Contains(searchFor), new { searchFor }))
 );
+
+dynamic f = new Dynamic(new[] { 1, 2, 3, 4, 5, 6, 7, 8, 1 });
+Log.Out(f);
+Log.Out("FILTER", f.Filter(p((int x) => x == 1)));
+Log.Out("FIND", f.Find(p((int x) => x == 15)));
+Log.Out("FIND", f.FindLastIndex(p((int x) => x == 1)));
+Log.Out("SOME", f.Some(p((int x) => x == 1)));
+
+dynamic g = new Dynamic(new[] { "Anna", "Anna", "Eva" });
+
+Log.Out("EVERY", g.Every(p((string x) => x == "Anna")));
+
+f = new Dynamic(new int[] { 1, 2, 3, 4, 5 });
+Log.Out("REDUCE NO SEED", f.Reduce(p((int a, int c) => a + c)));
+Log.Out("REDUCE SEED", f.Reduce(p((int a, int c) => a + c), 10));
+Log.Out("REDUCERIGHT NO SEED", f.ReduceRight(p((int a, int c) => a + c)));
+Log.Out("REDUCERIGHT SEED", f.ReduceRight(p((int a, int c) => a + c), 10));
+
+f = new Dynamic(new string[] { "Anna", "Beata", "Eva" });
+Log.Out("REDUCE STR NO SEED", f.Aggregate(p((string a, string c) => a + c)));
+Log.Out("REDUCE STR  SEED", f.Reduce(p((string a, string c) => a + " " + c), "Alla:"));
+Log.Out("REDUCERIGHT STR NO SEED", f.ReduceRight(p((string a, string c) => a + c)));
+Log.Out("REDUCERIGHT STR  SEED", f.ReduceRight(p((string a, string c) => a + " " + c), "Alla:"));
+Log.Out("NAMES", f);
+
+Log.Out("INCLUDES", f.Includes("Anna"));
+Log.Out("CONTAINS", f.Contains("Anna"));
+
+
+f = new Dynamic(new[] { 5, 3.2, 2, 1, 4 });
+var h = p((decimal a, decimal b) => a - b);
+Log.Out("SORT FUNC", h);
+Log.Out("SORT", f.ToSorted(h));
+
+//Log.Out("ToSpliced", f.ToSpliced(1, 1, 6, 7));
+//Log.Out("AFTER", f);
+
+dynamic j = new Dynamic(new[] { "hej", "hopp", "nu" });
+
+Holder j2 = j._();
+
+Log.Out(j2.Map((int x) => x + " coolt!"));
