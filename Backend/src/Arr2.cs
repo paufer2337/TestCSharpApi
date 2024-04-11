@@ -1,16 +1,16 @@
+
+using Newtonsoft.Json;
+
 public partial class Arr
 {
-
-    private object TryDynamic(object value)
+    public override String ToString()
     {
-        try
-        {
-            return new Dynamic(value);
-        }
-        catch (Exception)
-        {
-            return value;
-        }
+        return JsonConvert.SerializeObject(
+            memory//, Formatting.Indented
+        )
+        .Replace(",{", ",\n  {")
+        .Replace("[{", "[\n  {")
+        .Replace("}]", "}\n]");
     }
 
     public List<object> ToList()
@@ -18,7 +18,7 @@ public partial class Arr
         return memory.ToList();
     }
 
-    public object[] ToArray()
+    public dynamic[] ToArray()
     {
         return memory.ToArray();
     }
@@ -64,7 +64,7 @@ public partial class Arr
         }
         for (var i = values.Length - 1; i >= 0; i--)
         {
-            memory.Insert(start, values[i]);
+            memory.Insert(start, tryToObj(values[i]));
         }
         return new Arr(removed.ToArray());
     }
@@ -95,7 +95,7 @@ public partial class Arr
 
     public object Pop()
     {
-        return TryDynamic(Splice(Length() - 1, 1)[0]);
+        return Splice(Length() - 1, 1)[0];
     }
 
     public int Unshift(params object[] values)
@@ -106,7 +106,7 @@ public partial class Arr
 
     public object Shift()
     {
-        return TryDynamic(Splice(0, 1)[0]);
+        return Splice(0, 1)[0];
     }
 
     public int IndexOf(object value)

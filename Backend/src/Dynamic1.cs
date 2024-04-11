@@ -1,7 +1,6 @@
 using System.Dynamic;
 using System.Collections;
 using Newtonsoft.Json;
-using System.Linq.Expressions;
 
 public partial class Dynamic : DynamicObject
 {
@@ -91,7 +90,7 @@ public partial class Dynamic : DynamicObject
     public override string ToString()
     {
         return JsonConvert.SerializeObject(
-            propMemory.Count() > 0 ? propMemory : arrMemory, Formatting.Indented
+            propMemory.Count() > 0 ? propMemory : arrMemory
         );
     }
 

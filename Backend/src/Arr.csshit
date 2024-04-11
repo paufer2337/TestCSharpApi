@@ -1,0 +1,53 @@
+using System.Collections;
+
+// Indexer + IEnumarable implementation
+// so that Arr behaves like a enumerable
+
+public partial class Arr : IEnumerable<dynamic>
+{
+    public object this[int index]
+    {
+        get
+        {
+            return index >= 0 && index < memory.Count() ?
+                memory[index] : null!;
+        }
+        set
+        {
+            if (index < 0) { return; }
+            while (index >= memory.Count()) { Push(null!); }
+            memory[index] = value;
+        }
+    }
+
+    private List<object> memory = [];
+
+    public Arr() { }
+
+    public Arr(params dynamic[] items)
+    {
+        foreach (var item in items) { Push(item); }
+    }
+
+    public static Arr _(params dynamic[] obj)
+    {
+        var x = new Arr();
+        foreach (var item in obj[0]) { x.Push(item); }
+        return x;
+    }
+
+    //
+
+    public IEnumerator<dynamic> GetEnumerator()
+    {
+        foreach (var item in memory)
+        {
+            yield return item;
+        }
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
+    }
+}

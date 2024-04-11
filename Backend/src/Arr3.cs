@@ -1,132 +1,94 @@
-using Z.Expressions;
-using AgileObjects.ReadableExpressions;
-using System.Linq.Expressions;
-using System.Text.RegularExpressions;
+using System.Collections;
 
 public partial class Arr
 {
-    public static Dynamic Prepare(Expression lambda, object dependencies = null!)
+    private static dynamic tryToObj(dynamic value)
     {
-        dynamic result = new Dynamic();
-        var lam = lambda.ToReadableString();
-        // Fix errors in conversion done by ToReadableString
-        lam = lam.Replace("−", "-");
-        lam = Regex.Replace(lam, @"(\d{1,}),*(\d*)d", "$1__temp__$2");
-        lam = Regex.Replace(lam, @"__temp__(\d)", ".$1").Replace("__temp__", ".0");
-        // Build result
-        result.lambda = lam;
-        result.dependencies = new Dynamic(dependencies != null ? dependencies : new { });
-        return result;
+        var t = value.GetType();
+        var isPrimitive =
+            t.IsPrimitive ||
+            t == typeof(Decimal) ||
+            t == typeof(String);
+        var isObjAlready = value is Obj;
+
+        var isList = value as IEnumerable != null;
+
+        if (!isPrimitive && !isList && !isObjAlready)
+        {
+            try { value = new Obj(value); }
+            catch (Exception) { }
+        }
+        return value!;
     }
 
-    private dynamic LinqRun(string linqExpression, dynamic prepared)
+    private static Arr _(params dynamic[] obj)
     {
-        dynamic deps = prepared.dependencies;
-        deps.__x_ = !deps.HasKey("__reverse_") ? memory : ToReversed().ToList();
-        var result = Eval.Execute(
-            "__x_." + linqExpression,
-            deps.ToDictionary()
-        );
-        if (result == null) { return null!; }
-        var t = result.GetType();
-        return t.IsPrimitive || t == typeof(Decimal) || t == typeof(String)
-            ? result : new Dynamic(result);
+        var x = new Arr();
+        foreach (var item in obj[0]) { x.Push(tryToObj(item)); }
+        return x;
     }
 
-    public Arr Map(Expression lambda, object deps = null!)
+    public Arr Map(Func<dynamic, dynamic> func)
     {
-        dynamic prepared = Prepare(lambda, deps);
-        return new Arr(LinqRun($"Select({prepared.lambda});", prepared).ToArray());
+        return _(memory.Select(func));
     }
 
-    public Arr Filter(Expression lambda, object deps = null!)
+    public Arr Map(Func<dynamic, int, dynamic> func)
     {
-        dynamic prepared = Prepare(lambda, deps);
-        return new Arr(LinqRun($"Where({prepared.lambda});", prepared).ToArray());
+        return _(memory.Select(func));
     }
 
-    public dynamic Find(Expression lambda, object deps = null!)
+    public Arr Filter(Func<dynamic, bool> func)
     {
-        dynamic prepared = Prepare(lambda, deps);
-        return LinqRun($"FirstOrDefault({prepared.lambda},null);", prepared);
+        return _(memory.Where(func));
     }
 
-    public dynamic FindLast(Expression lambda, object deps = null!)
+    public Arr Filter(Func<dynamic, int, bool> func)
     {
-        dynamic prepared = Prepare(lambda, deps);
-        return LinqRun($"LastOrDefault({prepared.lambda},null);", prepared);
+        return _(memory.Where(func));
     }
 
-    public int FindIndex(Expression lambda, object deps = null!)
+    public dynamic Find(Func<dynamic, bool> func)
     {
-        dynamic prepared = Prepare(lambda, deps);
-        return memory.IndexOf(Find(prepared));
+        return memory.FirstOrDefault(func)!;
     }
 
-    public int FindLastIndex(Expression lambda, object deps = null!)
+    public dynamic Find(Func<dynamic, int, bool> func)
     {
-        dynamic prepared = Prepare(lambda, deps);
-        return memory.LastIndexOf(Find(prepared));
+        return memory.FirstOrDefault(func)!;
     }
 
-    public bool Some(Expression lambda, object deps = null!)
+    public dynamic FindLast(Func<dynamic, bool> func)
     {
-        dynamic prepared = Prepare(lambda, deps);
-        return LinqRun($"Any({prepared.lambda});", prepared);
+        return memory.LastOrDefault(func)!;
     }
 
-    public bool Every(Expression lambda, object deps = null!)
+    public dynamic FindLast(Func<dynamic, int, bool> func)
     {
-        dynamic prepared = Prepare(lambda, deps);
-        return LinqRun($"All({prepared.lambda});", prepared);
+        return memory.LastOrDefault(func)!;
     }
 
-    public dynamic Reduce(Expression lambda, object deps = null!)
+    public int FindIndex(Func<dynamic, bool> func)
     {
-        dynamic prepared = Prepare(lambda, deps);
-        return LinqRun($"Aggregate({prepared.lambda});", prepared);
+        return IndexOf(memory.FirstOrDefault(func)!);
     }
 
-    public dynamic Reduce(Expression lambda, dynamic initVal, object deps = null!)
+    public int FindIndex(Func<dynamic, int, bool> func)
     {
-        dynamic prepared = Prepare(lambda, deps);
-        prepared.dependencies.__seed = initVal;
-        return LinqRun($"Aggregate(__seed,{prepared.lambda});", prepared);
+        return IndexOf(memory.FirstOrDefault(func)!);
     }
 
-    public dynamic ReduceRight(Expression lambda, object deps = null!)
+    public int FindLastIndex(Func<dynamic, bool> func)
     {
-        dynamic prepared = Prepare(lambda, deps);
-        prepared.dependencies.__reverse_ = true;
-        return Reduce(prepared);
+        return LastIndexOf(memory.LastOrDefault(func)!);
     }
 
-    public dynamic ReduceRight(Expression lambda, dynamic initVal, object deps = null!)
+    public int FindLastIndex(Func<dynamic, int, bool> func)
     {
-        dynamic prepared = Prepare(lambda, deps);
-        prepared.dependencies.__reverse_ = true;
-        return Reduce(prepared, initVal);
+        return LastIndexOf(memory.LastOrDefault(func)!);
     }
 
-    public Arr Sort(Expression lambda, object deps = null!)
-    {
-        dynamic prepared = Prepare(lambda, deps);
-        // Linq Sort can only handle integer return values
-        // but accepting any numeric value is more flexible so:
-        // 0 -> 0, >0 -> 1, <0 -> -1
-        var p = prepared.lambda.Split("=> ", 2);
-        var x = @$"
-            {p[0]}=> {{
-                var _a_b = {p[1]};
-                return _a_b == 0 ? 0 : _a_b > 0 ? 1 : -1;
-            }}";
-        LinqRun($"Sort({x});", prepared);
-        return this;
-    }
 
-    public Arr ToSorted(Expression lambda, object deps = null!)
-    {
-        dynamic prepared = Prepare(lambda, deps);
-        return Slice().Sort(prepared);
-    }
+
+
 }

@@ -3,9 +3,18 @@ using System.Collections;
 // Indexer + IEnumarable implementation
 // so that Arr behaves like a enumerable
 
-public partial class Arr : IEnumerable
+public partial class Arr : IEnumerable<object>
 {
-    public object this[int index]
+    private List<object> memory = [];
+
+    public Arr() { }
+
+    public Arr(params dynamic[] items)
+    {
+        foreach (var item in items) { Push(item); }
+    }
+
+    public dynamic this[int index]
     {
         get
         {
@@ -15,44 +24,34 @@ public partial class Arr : IEnumerable
         set
         {
             if (index < 0) { return; }
-            while (index >= memory.Count()) { memory.Add(null!); }
+            while (index >= memory.Count()) { Push(null!); }
             memory[index] = value;
-        }
-    }
-
-    private List<object> memory = new List<object>();
-
-    public Arr() { }
-
-    public Arr(object[] objects)
-    {
-        foreach (var obj in objects)
-        {
-            memory.Add(obj);
         }
     }
 
     IEnumerator IEnumerable.GetEnumerator()
     {
-        return (IEnumerator)GetEnumerator();
+        return GetEnumerator();
     }
 
-    public ArrEnum GetEnumerator()
+    public IEnumerator<object> GetEnumerator()
     {
         return new ArrEnum(memory.ToArray());
     }
 }
 
 // When you implement IEnumerable, you must also implement IEnumerator.
-public class ArrEnum : IEnumerator
+public class ArrEnum : IEnumerator<object>
 {
-    public object[] _arr;
+    public dynamic[] _arr;
+
+    public void Dispose() { _arr = null!; }
 
     // Enumerators are positioned before the first element
     // until the first MoveNext() call.
     int position = -1;
 
-    public ArrEnum(object[] list)
+    public ArrEnum(dynamic[] list)
     {
         _arr = list;
     }
@@ -68,7 +67,7 @@ public class ArrEnum : IEnumerator
         position = -1;
     }
 
-    object IEnumerator.Current
+    dynamic IEnumerator.Current
     {
         get
         {
@@ -76,13 +75,13 @@ public class ArrEnum : IEnumerator
         }
     }
 
-    public object Current
+    public dynamic Current
     {
         get
         {
             try
             {
-                return _arr[position];
+                return (dynamic)(_arr[position]);
             }
             catch (IndexOutOfRangeException)
             {
