@@ -12,23 +12,45 @@ public class Obj : DynamicObject
         Merge(source);
     }
 
+    public string[] GetKeys()
+    {
+        return memory.Keys.ToArray();
+    }
+
     public void Merge(params object[] sources)
     {
-        Con.Log("SOURCES", JSON.Stringify(sources));
-        foreach (object source in sources)
+        //Con.Log("SOURCES", JSON.Stringify(sources));
+        foreach (dynamic source in sources)
         {
-            foreach (var prop in source.GetType().GetProperties())
+            var keys = new Arr();
+            var values = new Arr();
+            if (source is Obj)
             {
-                var key = prop.Name;
-                var value = prop.GetValue(source);
+                foreach (var key in source.GetKeys())
+                {
+                    keys.Push(key);
+                    values.Push(source[key]);
+                }
+            }
+            else
+            {
+                foreach (var prop in source.GetType().GetProperties())
+                {
+                    keys.Push(prop.Name);
+                    values.Push(prop.GetValue(source));
+                }
+            }
+
+            foreach (string key in keys)
+            {
                 if (key.StartsWith("SPREAD"))
                 {
-                    Con.Log("SPREAD MERGE", value);
-                    Merge(value!);
-                    continue;
+                    Merge(values.Shift());
                 }
-                Con.Log("WRITTEN KEY", key);
-                memory[key] = value!;
+                else
+                {
+                    memory[key] = values.Shift();
+                }
             }
         }
     }
