@@ -1,3 +1,4 @@
+namespace Dyndata;
 using System.Dynamic;
 
 public class Obj : DynamicObject
@@ -12,14 +13,8 @@ public class Obj : DynamicObject
         Merge(source);
     }
 
-    public string[] GetKeys()
-    {
-        return memory.Keys.ToArray();
-    }
-
     public void Merge(params object[] sources)
     {
-        //Con.Log("SOURCES", JSON.Stringify(sources));
         foreach (dynamic source in sources)
         {
             var keys = new Arr();
@@ -74,11 +69,6 @@ public class Obj : DynamicObject
         return true;
     }
 
-    public override string[] GetDynamicMemberNames()
-    {
-        return memory.Keys.ToArray();
-    }
-
     public bool Delete(string key)
     {
         memory.Remove(key);
@@ -88,6 +78,30 @@ public class Obj : DynamicObject
     public bool HasKey(string key)
     {
         return memory.ContainsKey(key);
+    }
+
+    public Arr GetKeys()
+    {
+        return new Arr(memory.Keys.ToArray());
+    }
+
+    public Arr GetValues()
+    {
+        return new Arr(memory.Values.ToArray());
+    }
+
+    public Arr GetEntries()
+    {
+        var arr = new Arr();
+        var values = GetValues();
+        GetKeys().ForEach((key, i) =>
+            arr.Push(new Arr(key, values[i])));
+        return arr;
+    }
+
+    public override string[] GetDynamicMemberNames()
+    {
+        return memory.Keys.ToArray();
     }
 
     public override string ToString()
