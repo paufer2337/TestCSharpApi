@@ -106,6 +106,6 @@ public class Obj : DynamicObject
 
     public override string ToString()
     {
-        return JSON.Stringify(memory);
+        return JSON.StringifyIndented(memory);
     }
 }

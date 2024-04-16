@@ -1,4 +1,12 @@
-using Dyndata;
+dynamic fish = new
+{
+    name = "Wanda",
+    ocean = "The Atlantic"
+}.Make();
+
+fish.lastName = "Wilson";
+
+Con.Log(fish);
 
 var people = new Arr(
     new { name = "Astra", age = 50 },
