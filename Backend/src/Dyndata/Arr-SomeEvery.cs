@@ -1,5 +1,4 @@
 namespace Dyndata;
-
 // Arr: Some and Every methods
 
 public partial class Arr

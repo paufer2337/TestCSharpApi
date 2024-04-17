@@ -1,6 +1,6 @@
 namespace Dyndata;
-
 // Arr: Reduce methods
+
 public partial class Arr
 {
     public dynamic Reduce(_ddd func)

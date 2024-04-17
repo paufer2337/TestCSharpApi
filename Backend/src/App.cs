@@ -1,14 +1,14 @@
-dynamic fish = new
+dynamic fish = Obj(new
 {
     name = "Wanda",
     ocean = "The Atlantic"
-}.Make();
+});
 
 fish.lastName = "Wilson";
 
 Log(fish);
 
-var people = new Arr(
+var people = Arr(
     new { name = "Astra", age = 50 },
     new { name = "Cecilia", age = 30 },
     new { name = "Bertil", age = 20 }
@@ -37,7 +37,7 @@ var oho = people.Filter(x => x.name != "Bertil");
 Log(oho.Length, oho);
 
 
-var nums = new Arr(1, 2, 3, 3, 4, 5, 6, 10, 0);
+var nums = Arr(1, 2, 3, 3, 4, 5, 6, 10, 0);
 Log("nums", nums.FindIndex(x => x == 0));
 
 nums.Length = 3;

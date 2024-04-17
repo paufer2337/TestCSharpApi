@@ -1,5 +1,5 @@
 namespace Dyndata;
-using System.Dynamic;
+// Obj: A dynamic object
 
 public class Obj : DynamicObject
 {

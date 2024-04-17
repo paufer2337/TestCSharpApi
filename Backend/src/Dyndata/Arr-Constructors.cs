@@ -1,6 +1,4 @@
 namespace Dyndata;
-using System.Collections;
-
 // Arr: Constructors 
 // (empty, from any IEnumerable or from parameter list)
 

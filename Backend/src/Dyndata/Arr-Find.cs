@@ -1,5 +1,4 @@
 namespace Dyndata;
-
 // Arr: Find methods
 
 public partial class Arr

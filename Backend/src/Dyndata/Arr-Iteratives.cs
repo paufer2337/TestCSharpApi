@@ -1,5 +1,4 @@
 namespace Dyndata;
-
 // Arr: Basic iterative methods:
 // Foreach, Map And Filter
 

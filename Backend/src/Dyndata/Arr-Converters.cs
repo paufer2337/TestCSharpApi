@@ -1,6 +1,4 @@
 namespace Dyndata;
-using Newtonsoft.Json;
-
 // Arr: Converters
 // (convert ToString/JSON, ToArray and ToList)
 

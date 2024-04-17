@@ -1,6 +1,4 @@
 namespace Dyndata;
-using System.Collections;
-
 // Arr: All private members
 
 public partial class Arr

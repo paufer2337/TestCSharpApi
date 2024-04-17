@@ -1,6 +1,4 @@
 namespace Dyndata;
-using System.Collections;
-
 // Arr: IEnumarable implementation
 // (so that Arr behaves like a enumerable)
 

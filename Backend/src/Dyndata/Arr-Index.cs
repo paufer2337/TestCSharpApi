@@ -1,5 +1,4 @@
 namespace Dyndata;
-
 // Arr: Index - make it possible to use indexes
 public partial class Arr
 {

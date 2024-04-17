@@ -1,5 +1,4 @@
 namespace Dyndata;
-
 // Delegates used for iterative methods in Arr
 
 public delegate void _vd(dynamic item);
