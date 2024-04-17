@@ -6,7 +6,7 @@ dynamic fish = new
 
 fish.lastName = "Wilson";
 
-Con.Log(fish);
+Log(fish);
 
 var people = new Arr(
     new { name = "Astra", age = 50 },
@@ -16,13 +16,13 @@ var people = new Arr(
 
 people.Sort((a, b) => string.Compare(a.name, b.name));
 
-people.ForEach((x, i) => Con.Log("HEY", i, x));
+people.ForEach((x, i) => Log("HEY", i, x));
 
 people[1].lastName = "Carlsson";
 
-Con.Log("keys", people[1].GetKeys());
-Con.Log("values", people[1].GetValues());
-Con.Log("entries", people[1].GetEntries());
+Log("keys", people[1].GetKeys());
+Log("values", people[1].GetValues());
+Log("entries", people[1].GetEntries());
 
 var aha = people.Map((x, i) => new
 {
@@ -30,21 +30,21 @@ var aha = people.Map((x, i) => new
     name = x.name + " Lisa" + i
 });
 
-Con.Log(aha.Length, aha);
+Log(aha.Length, aha);
 
 var oho = people.Filter(x => x.name != "Bertil");
 
-Con.Log(oho.Length, oho);
+Log(oho.Length, oho);
 
 
 var nums = new Arr(1, 2, 3, 3, 4, 5, 6, 10, 0);
-Con.Log("nums", nums.FindIndex(x => x == 0));
+Log("nums", nums.FindIndex(x => x == 0));
 
 nums.Length = 3;
-Con.Log("nums again", nums);
+Log("nums again", nums);
 
 nums.Splice(10000, 1, 11, 12, 13);
-Con.Log("and again", nums);
+Log("and again", nums);
 
 /*var demo = new Expression[]{
     ()=>people.Length(),

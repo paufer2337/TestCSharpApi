@@ -1,0 +1,44 @@
+namespace Dyndata;
+using System.Dynamic;
+using Z.Expressions;
+
+#nullable disable
+
+public static class ExtendedConsole
+{
+    public static readonly dynamic Console = new Consol();
+}
+
+public class Consol : Dynamic
+{
+    public override bool TryInvokeMember(
+         InvokeMemberBinder binder, object[] args, out object result)
+    {
+        result = null;
+        var co = 0;
+        var dict = new Dictionary<string, object>();
+        foreach (var arg in args) { dict.Add("k" + co++, arg); }
+        var paras = String.Join(",", dict.Keys);
+        var run = $"Console.{binder.Name}({paras})";
+        try { result = Eval.Execute(run, dict); }
+        catch (Exception) { return false; }
+        return true;
+    }
+
+    public override bool TryGetMember(GetMemberBinder binder, out object result)
+    {
+        result = null;
+        var run = $"Console.{binder.Name};";
+        try { result = Eval.Execute(run); }
+        catch (Exception) { return false; }
+        return true;
+    }
+
+    public override bool TrySetMember(SetMemberBinder binder, object value)
+    {
+        var run = $"Console.{binder.Name} = value;";
+        try { Eval.Execute(run, new { value }); }
+        catch (Exception) { return false; }
+        return true;
+    }
+}
