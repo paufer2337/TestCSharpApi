@@ -1,19 +1,13 @@
-var animals = Arr("ant", "bison", "camel", "duck", "elephant");
+var array1 = Arr("one", "two", "three");
+Console.WriteLine("array1: " + array1);
+// Expected output: array1: ["one", "two", "three"]
 
-Console.WriteLine(animals.Slice(2));
-// Expected output: ["camel", "duck", "elephant"]
+var reversed = array1.Reverse();
+Console.WriteLine("reversed: " + array1);
+// Expected output: reversed: ["three", "two", "one"]
 
-Console.WriteLine(animals.Slice(2, 4));
-// Expected output: ["camel", "duck"]
+// Careful: reverse is destructive - it changes the original array.
+// (reversed and array1 are just two pointers to the same object reference)
 
-Console.WriteLine(animals.Slice(1, 5));
-// Expected output: ["bison", "camel", "duck", "elephant"]
-
-Console.WriteLine(animals.Slice(-2));
-// Expected output: ["duck", "elephant"]
-
-Console.WriteLine(animals.Slice(2, -1));
-// Expected output: ["camel", "duck"]
-
-Console.WriteLine(animals.Slice());
-// Expected output: ["ant", "bison", "camel", "duck", "elephant"]
+Console.WriteLine("array1: " + array1);
+// Expected output: array1: ["three", "two", "one"]

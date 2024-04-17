@@ -68,7 +68,7 @@ Console.WriteLine(array1);
 ```
 
 ### Arr.Slice()
-The Slice() method of Arr instances returns a shallow copy of a portion of an array into a new array object selected from start to end (end not included) where start and end represent the index of items in that array. The original array will not be modified.
+The Slice() method of Arr instances returns a shallow copy of a portion of an array into a Arr selected from start to end (end not included) where start and end represent the index of items in that array. The original array will not be modified.
 
 #### Syntax
 ```cs
@@ -100,3 +100,59 @@ Console.WriteLine(animals.Slice(2, -1));
 Console.WriteLine(animals.Slice());
 // Expected output: ["ant", "bison", "camel", "duck", "elephant"]
 ```
+
+### Arr.Splice()
+The Splice() method of Arr instances changes the contents of an array by removing or replacing existing elements and/or adding new elements in place. It returns a new Arr of the removed elements.
+
+To create a new Arr with a segment removed and/or replaced without mutating the original array, use ToSpliced(). To access part of an array without modifying it, see Slice().
+
+#### Syntax
+```cs
+Splice(start)
+Splice(start, deleteCount)
+Splice(start, deleteCount, item1)
+Splice(start, deleteCount, item1, item2)
+Splice(start, deleteCount, item1, item2, /* …, */ itemN)
+```
+
+#### Example
+```cs
+var months = Arr("Jan", "March", "April", "June");
+
+// Inserts at index 1
+months.Splice(1, 0, "Feb");
+
+Console.WriteLine(months);
+// Expected output: ["Jan", "Feb", "March", "April", "June"]
+
+// Replaces 1 element at index 4
+var removedItems = months.Splice(4, 1, "May");
+
+Console.WriteLine(removedItems);
+// Expected output: ["June"]
+Console.WriteLine(months);
+// Expected output: ["Jan", "Feb", "March", "April", "May"]
+```
+
+### Arr.Reverse()
+The Reverse() method of Arr instances reverses an array in place and returns the reference to the same array, the first array element now becoming the last, and the last array element becoming the first. 
+
+To create a new Arr with the reversed element order, without mutating the original array, use ToReversed().
+
+#### Example
+```cs
+var array1 = Arr("one", "two", "three");
+Console.WriteLine("array1: " + array1);
+// Expected output: array1: ["one", "two", "three"]
+
+var reversed = array1.Reverse();
+Console.WriteLine("reversed: " + array1);
+// Expected output: reversed: ["three", "two", "one"]
+
+// Careful: Reverse is destructive - it changes the original array.
+// (And reversed and array1 both point to the same object.)
+
+Console.WriteLine("array1: " + array1);
+// Expected output: array1: ["three", "two", "one"]
+```
+
