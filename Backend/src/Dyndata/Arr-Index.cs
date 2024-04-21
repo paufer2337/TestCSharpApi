@@ -13,7 +13,7 @@ public partial class Arr
         {
             if (index < 0) { return; }
             while (index >= Length) { Push(null!); }
-            memory[index] = value;
+            memory[index] = Utils.TryToObjOrArr(value);
         }
     }
 }

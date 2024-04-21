@@ -1,3 +1,30 @@
+### Arr.Length
+The length data property of an Arr instance represents the number of elements in that array. The value is an integer that is always numerically greater than the highest index in the array.
+
+#### Syntax - setting Length
+* Setting the length to a value smaller than the current length truncates the array — elements beyond the new length are deleted.
+* Setting any array index beyond the current length extends the array — the length property is increased to reflect the new highest index. New elements with null values will be inserted.
+
+#### Example
+```cs
+var arr = Arr(1, 2, 3);
+
+Console.WriteLine(arr);
+// [ 1, 2, 3 ]
+Console.WriteLine(arr.Length);
+// 3
+
+arr.Length = 2;
+Console.WriteLine(arr);
+// [ 1, 2]
+
+arr.Length = 5;
+Console.WriteLine(arr);
+// [1, 2, null, null, null]
+Console.WriteLine(arr.Length);
+// 5
+```
+
 ### Arr.Pop()
 The Pop() method of Arr instances removes the last element from an array and returns that element. This method changes the length of the array.
 
@@ -68,7 +95,7 @@ Console.WriteLine(array1);
 ```
 
 ### Arr.Slice()
-The Slice() method of Arr instances returns a shallow copy of a portion of an array into a Arr selected from start to end (end not included) where start and end represent the index of items in that array. The original array will not be modified.
+The Slice() method of Arr instances returns a new Arr which is a shallow copy of a portion of the original, selected from start to end (end not included). Start and end represent the index of items. The original array will not be modified.
 
 #### Syntax
 ```cs
@@ -115,6 +142,8 @@ Splice(start, deleteCount, item1, item2)
 Splice(start, deleteCount, item1, item2, /* …, */ itemN)
 ```
 
+**Note:** Negative index counts back from the end of the array.
+
 #### Example
 ```cs
 var months = Arr("Jan", "March", "April", "June");
@@ -132,6 +161,40 @@ Console.WriteLine(removedItems);
 // Expected output: ["June"]
 Console.WriteLine(months);
 // Expected output: ["Jan", "Feb", "March", "April", "May"]
+```
+
+### Arr.ToSpliced()
+The ToSpliced() method of Arr instances is the copying version of the splice() method. It returns a new Arr with some elements removed and/or replaced at a given index.
+
+#### Syntax
+```cs
+ToSpliced(start)
+ToSpliced(start, deleteCount)
+ToSpliced(start, deleteCount, item1)
+ToSpliced(start, deleteCount, item1, item2)
+ToSpliced(start, deleteCount, item1, item2, /* …, */ itemN)
+```
+
+**Note:** Negative index counts back from the end of the array.
+
+#### Example
+```cs
+var months = Arr("Jan", "Mar", "Apr", "May");
+
+// Inserting an element at index 1
+var months2 = months.ToSpliced(1, 0, "Feb");
+Console.WriteLine(months2); // ["Jan", "Feb", "Mar", "Apr", "May"]
+
+// Deleting two elements starting from index 2
+var months3 = months2.ToSpliced(2, 2);
+Console.WriteLine(months3); // ["Jan", "Feb", "May"]
+
+// Replacing one element at index 1 with two new elements
+var months4 = months3.ToSpliced(1, 1, "Feb", "Mar");
+Console.WriteLine(months4); // ["Jan", "Feb", "Mar", "May"]
+
+// Original array is not modified
+Console.WriteLine(months); // ["Jan", "Mar", "Apr", "May"]
 ```
 
 ### Arr.Reverse()
@@ -156,3 +219,15 @@ Console.WriteLine("array1: " + array1);
 // Expected output: array1: ["three", "two", "one"]
 ```
 
+### Arr.ToReversed()
+The ToReversed() method of Arr instances is the copying counterpart of the reverse() method. It returns a new array with the elements in reversed order.
+
+#### Example
+```cs
+var items = Arr(1, 2, 3);
+Console.WriteLine(items); // [1, 2, 3]
+
+var reversedItems = items.ToReversed();
+Console.WriteLine(reversedItems); // [3, 2, 1]
+Console.WriteLine(items); // [1, 2, 3]
+```

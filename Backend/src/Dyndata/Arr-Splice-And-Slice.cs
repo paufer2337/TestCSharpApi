@@ -1,6 +1,5 @@
 namespace Dyndata;
-// Arr: Splice and slice
-// + our memory + Length
+// Arr: Splice and slice + Length
 // (Splice is is used heavily by other methods)
 
 public partial class Arr
@@ -8,11 +7,16 @@ public partial class Arr
     public dynamic Length
     {
         get { return memory.Count(); }
-        set { Splice(value, Length); }
+        set
+        {
+            Splice(value, Length);
+            while (Length < value) { Push(null!); }
+        }
     }
 
     public Arr Splice(int start, int deleteCount, params object[] values)
     {
+        if (values == null) { values = [null!]; }
         start = start < 0 ? Length + start : start;
         start = start < 0 ? 0 : start;
         var removed = new List<object>();
@@ -25,7 +29,7 @@ public partial class Arr
         start = start > Length ? Length : start;
         for (var i = values.Length - 1; i >= 0; i--)
         {
-            memory.Insert(start, TryToObj(values[i]));
+            memory.Insert(start, Utils.TryToObjOrArr(values[i]));
         }
         return new Arr(removed.ToArray());
     }

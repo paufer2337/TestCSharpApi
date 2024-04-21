@@ -8,12 +8,14 @@ public partial class Arr
 
     public Arr(IEnumerable items)
     {
-        var newArr = new Arr();
         foreach (var item in items) { Push(item); }
     }
 
     public Arr(params dynamic[] items)
     {
-        foreach (var item in items) { Push(item); }
+        foreach (var item in items)
+        {
+            Push(item);
+        }
     }
 }

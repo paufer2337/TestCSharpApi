@@ -18,6 +18,7 @@ public static class Factory
 
     public static A Arr(params dynamic[] items)
     {
+        if (items.Length == 1 && items[0] is Arr) { return (Arr)items[0]; }
         return new A(items);
     }
 

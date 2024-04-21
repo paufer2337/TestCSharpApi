@@ -24,7 +24,7 @@ public class Obj : DynamicObject
                 foreach (var key in source.GetKeys())
                 {
                     keys.Push(key);
-                    values.Push(source[key]);
+                    values.Push((object)source[key]);
                 }
             }
             else
@@ -32,7 +32,7 @@ public class Obj : DynamicObject
                 foreach (var prop in source.GetType().GetProperties())
                 {
                     keys.Push(prop.Name);
-                    values.Push(prop.GetValue(source));
+                    values.Push((object)prop.GetValue(source));
                 }
             }
 
@@ -44,16 +44,16 @@ public class Obj : DynamicObject
                 }
                 else
                 {
-                    memory[key] = values.Shift();
+                    memory[key] = Utils.TryToObjOrArr(values.Shift());
                 }
             }
         }
     }
 
-    public object this[string key]
+    public dynamic this[string key]
     {
         get { return memory[key]; }
-        set { memory[key] = value; }
+        set { memory[key] = Utils.TryToObjOrArr(value); }
     }
 
     public override bool TryGetMember(GetMemberBinder binder, out object result)

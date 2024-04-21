@@ -1,13 +1,18 @@
-var array1 = Arr("one", "two", "three");
-Console.WriteLine("array1: " + array1);
-// Expected output: array1: ["one", "two", "three"]
+dynamic x = Obj(new
+{
+    name = "John Doe",
+    hobbies = new[]{
+        new { name = "Fishing", advantages = new[] { "hej", "hå" } },
+        new { name = "Painting", advantages = new[] { "hepp", "pepp" } }
+    }
+});
 
-var reversed = array1.Reverse();
-Console.WriteLine("reversed: " + array1);
-// Expected output: reversed: ["three", "two", "one"]
+((Arr)x.hobbies[1].advantages).ForEach((x, i) => Log(i, x));
 
-// Careful: reverse is destructive - it changes the original array.
-// (reversed and array1 are just two pointers to the same object reference)
+var y = Arr(
+    new { name = "John" },
+    new { name = "Anna" }
+);
 
-Console.WriteLine("array1: " + array1);
-// Expected output: array1: ["three", "two", "one"]
+y[0].lastName = "Henrysson";
+Log(y[0].lastName);
