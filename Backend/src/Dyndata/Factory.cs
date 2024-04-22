@@ -2,7 +2,8 @@ namespace Dyndata;
 using A = Arr;
 using O = Obj;
 
-// Static factory functions for Arr and Obj
+// Static factory functions for Arr, Obj
+// + Log
 
 public static class Factory
 {
@@ -22,13 +23,21 @@ public static class Factory
         return new A(items);
     }
 
-    public static O Obj()
+    public static dynamic Obj()
     {
         return new O();
     }
 
-    public static O Obj(object source)
+    public static dynamic Obj(object source)
     {
         return new O(source);
+    }
+
+    public static void Log(params object[] paras)
+    {
+        Console.WriteLine(String.Join(" ", paras
+            .Select(x => x != null ? x : "null"))
+            .Replace("'", "\"")
+        );
     }
 }

@@ -1,18 +1,23 @@
-dynamic x = Obj(new
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+
+var x = Obj(new
 {
     name = "John Doe",
     hobbies = new[]{
-        new { name = "Fishing", advantages = new[] { "hej", "hå" } },
-        new { name = "Painting", advantages = new[] { "hepp", "pepp" } }
+        new { name = "Fishing", age=20.1, advantages = new[] { "hej", "hå" } },
+        new { name = "Painting", age=21.2,advantages = new[] { "hepp", "pepp" } }
     }
 });
 
-((Arr)x.hobbies[1].advantages).ForEach((x, i) => Log(i, x));
+x.lastName = "Pelleson";
 
-var y = Arr(
-    new { name = "John" },
-    new { name = "Anna" }
-);
+var a = JSON.Stringify(x);
 
-y[0].lastName = "Henrysson";
-Log(y[0].lastName);
+dynamic b = JSON.Parse(a);
+
+Log(x.hobbies[0].advantages.GetType());
+Log(b.hobbies[0].advantages.GetType());
+
+var c = ((Arr)(b.hobbies)).Map(x => Obj(new { SPREAD = x, name = x.name + " Yo" }));
+Log(c);

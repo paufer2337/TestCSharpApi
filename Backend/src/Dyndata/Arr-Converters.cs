@@ -6,13 +6,7 @@ public partial class Arr
 {
     public override String ToString()
     {
-        return JsonConvert.SerializeObject(memory)
-        .Replace(",{", ",\n  {")
-        .Replace("[{", "[\n  {")
-        .Replace("}]", "}\n]")
-        .Replace(",[", ",\n  [")
-        .Replace("[[", "[\n  [")
-        .Replace("]]", "]\n]");
+        return JSON.Stringify(this, true);
     }
 
     public List<object> ToList()

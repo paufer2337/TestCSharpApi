@@ -1,7 +1,7 @@
 namespace Dyndata;
 // Obj: A dynamic object
 
-public class Obj : DynamicObject
+public partial class Obj : DynamicObject
 {
 
     private Dictionary<string, object> memory = new Dictionary<string, object>();
@@ -11,43 +11,6 @@ public class Obj : DynamicObject
     public Obj(object source)
     {
         Merge(source);
-    }
-
-    public void Merge(params object[] sources)
-    {
-        foreach (dynamic source in sources)
-        {
-            var keys = new Arr();
-            var values = new Arr();
-            if (source is Obj)
-            {
-                foreach (var key in source.GetKeys())
-                {
-                    keys.Push(key);
-                    values.Push((object)source[key]);
-                }
-            }
-            else
-            {
-                foreach (var prop in source.GetType().GetProperties())
-                {
-                    keys.Push(prop.Name);
-                    values.Push((object)prop.GetValue(source));
-                }
-            }
-
-            foreach (string key in keys)
-            {
-                if (key.StartsWith("SPREAD"))
-                {
-                    Merge(values.Shift());
-                }
-                else
-                {
-                    memory[key] = Utils.TryToObjOrArr(values.Shift());
-                }
-            }
-        }
     }
 
     public dynamic this[string key]
@@ -65,7 +28,7 @@ public class Obj : DynamicObject
     public override bool TrySetMember(SetMemberBinder binder, object? value)
     {
         var key = binder.Name;
-        memory[key] = value!;
+        memory[key] = Utils.TryToObjOrArr(value!);
         return true;
     }
 
@@ -106,6 +69,6 @@ public class Obj : DynamicObject
 
     public override string ToString()
     {
-        return JSON.StringifyIndented(memory);
+        return JSON.Stringify(memory, true);
     }
 }
