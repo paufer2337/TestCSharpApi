@@ -29,7 +29,7 @@ public partial class Obj
 
             foreach (string key in keys)
             {
-                if (key.StartsWith("SPREAD"))
+                if (key.StartsWith("___"))
                 {
                     Merge(values.Shift());
                 }
