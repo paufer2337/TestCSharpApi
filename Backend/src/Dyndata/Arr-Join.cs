@@ -7,7 +7,9 @@ public partial class Arr
     {
         Utils.SetInvariantCulture();
         var result = Reduce(
-            (a, c, i) => a + c + (i == Length - 1 ? "" : glue),
+            (a, c, i) => a
+                + (c is bool ? (c ? "true" : "false") : c)
+                + (i == Length - 1 ? "" : glue),
             ""
         );
         Utils.SetOriginalCulture();

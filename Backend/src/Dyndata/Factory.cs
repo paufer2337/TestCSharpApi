@@ -37,4 +37,12 @@ public static class Factory
     {
         Console.WriteLine(JSON.StringifyForLog(paras) + "\r\n");
     }
+
+    public static bool Highlight
+    {
+        get { return JSON.Highlight; }
+        set { JSON.Highlight = value; }
+    }
+
+    public static readonly long Infinity = long.MaxValue;
 }

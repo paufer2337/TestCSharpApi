@@ -25,6 +25,121 @@ Log(arr.Length);
 // 5
 ```
 
+### Arr.Includes()
+The Includes() method of Arr instances determines whether an array includes a certain value among its entries, returning true or false as appropriate.
+
+### Syntax
+```cs
+Includes(searchElement);            
+Includes(searchElement, fromIndex); 
+```
+*fromIndex* = index to start the search at.
+
+#### Example
+```cs
+var array1 = Arr(1, 2, 3);
+
+Log(array1.Includes(2));
+// Expected output: true
+
+var pets = Arr("cat", "dog", "bat");
+
+Log(pets.Includes("bat"));
+// Expected output: true
+
+Log(pets.Includes("at"));
+// Expected output: false
+
+Log(pets.Includes("cat", 1));
+// Expected output: false
+
+Log(pets.Includes("dog", 1));
+// Expected output: true
+```
+
+### Arr.Contains()
+The Contains() method of Arr instances determines whether an array includes a certain value among its entries, returning true or false as appropriate.
+
+**Note:** Contains is *an alias* for Includes. They both work exactly the same.
+
+### Syntax
+```cs
+Contains(searchElement);            
+Contains(searchElement, fromIndex); 
+```
+*fromIndex* = index to start the search at.
+
+#### Example
+```cs
+var array1 = Arr(1, 2, 3);
+
+Log(array1.Contains(2));
+// Expected output: true
+
+var pets = Arr("cat", "dog", "bat");
+
+Log(pets.Contains("bat"));
+// Expected output: true
+
+Log(pets.Contains("at"));
+// Expected output: false
+
+Log(pets.Contains("cat", 1));
+// Expected output: false
+
+Log(pets.Contains("dog", 1));
+// Expected output: true
+```
+
+### Array.IndexOf()
+The IndexOf() method of Arr instances returns the first index at which a given element can be found in the array, or -1 if it is not present.
+
+#### Syntax
+```cs
+IndexOf(searchElement)
+IndexOf(searchElement, fromIndex)
+```
+*fromIndex* = index to start the search at.
+
+### Example
+```cs
+var beasts = Arr("ant", "bison", "camel", "duck", "bison");
+
+Log(beasts.IndexOf("bison"));
+// Expected output: 1
+
+// Start from index 2
+Log(beasts.IndexOf("bison", 2));
+// Expected output: 4
+
+Log(beasts.IndexOf("giraffe"));
+// Expected output: -1
+```
+
+### Array.LastIndexOf()
+The LastIndexOf() method of Arr instances returns the last index at which a given element can be found in the array, or -1 if it is not present. 
+
+#### Syntax
+```cs
+LastIndexOf(searchElement)
+LastIndexOf(searchElement, fromIndex)
+```
+The array is searched backwards, starting at *fromIndex* (if provided).
+
+#### Examples
+```cs
+var animals = Arr("Dodo", "Tiger", "Penguin", "Dodo", "Pig");
+
+Log(animals.LastIndexOf("Dodo", 4));
+// Expected output: 3
+
+Log(animals.LastIndexOf("Dodo", 2));
+// Expected output: 0
+
+Log(animals.LastIndexOf("Tiger"));
+// Expected output: 1
+```
+
 ### Arr.Pop()
 The Pop() method of Arr instances removes the last element from an array and returns that element. This method changes the length of the array.
 
@@ -231,3 +346,59 @@ var reversedItems = items.ToReversed();
 Log(reversedItems); // [3, 2, 1]
 Log(items); // [1, 2, 3]
 ```
+
+### Arr.Join()
+The Join() method of Arr instances creates and returns a string by concatenating all of the elements in the array, separated by commas or a specified separator string. If the array has only one item, then that item will be returned without using the separator.
+
+Non-string values will be converted to strings. Null values will be replaced by empty strings.
+
+#### Example
+```cs
+var elements = Arr("Fire", "Air", "Water");
+
+Log(elements.Join());
+// Expected output: "Fire,Air,Water"
+
+Log(elements.Join(", "));
+// Expected output: "Fire, Air, Water"
+
+Log(elements.Join(""));
+// Expected output: "FireAirWater"
+
+Log(elements.Join("-"));
+// Expected output: "Fire-Air-Water"
+```
+
+### Arr.Flat()
+The Flat() method of Arr instances creates a new array with all sub-array elements concatenated into it recursively up to the specified depth.
+
+#### Syntax
+```cs
+Arr.Flat();  // flatten with depth 1
+Arr.Flat(1); // flatten with depth 1
+Arr.Flat(2); // flatten with depth 2
+Arr.Flat(n); // flatten with depth n
+```
+
+#### Example
+```cs
+var arr1 = Arr(0, 1, 2, Arr(3, 4));
+
+Log(arr1.Flat());
+// expected output: [0, 1, 2, 3, 4]
+
+var arr2 = Arr(0, 1, Arr(2, Arr(3, Arr(4, 5))));
+
+Log(arr2.Flat());
+// expected output: [ 0, 1, 2, [ 3, [4, 5] ] ]
+
+Log(arr2.Flat(2));
+// expected output: [ 0, 1, 2, 3, [4, 5] ]
+
+Log(arr2.Flat(3));
+// expected output: [0, 1, 2, 3, 4, 5]
+
+Log(arr2.Flat(Infinity));
+// expected output: [0, 1, 2, 3, 4, 5]
+```
+

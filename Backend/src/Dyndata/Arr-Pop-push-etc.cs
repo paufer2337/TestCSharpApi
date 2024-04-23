@@ -25,19 +25,25 @@ public partial class Arr
         return Splice(0, 1)[0];
     }
 
-    public int IndexOf(object value)
+    public int IndexOf(object value, int fromIndex = 0)
     {
-        return memory.IndexOf(value);
+        var i = Slice(fromIndex).memory.IndexOf(value);
+        return i < 0 ? -1 : i + fromIndex;
     }
 
-    public int LastIndexOf(object value)
+    public int LastIndexOf(object value, int fromIndex = int.MaxValue)
     {
-        return memory.LastIndexOf(value);
+        return Slice(0, fromIndex).memory.LastIndexOf(value);
     }
 
-    public bool Includes(object value)
+    public bool Includes(object value, int fromIndex = 0)
     {
-        return memory.Contains(value);
+        return Slice(fromIndex).memory.Contains(value);
+    }
+
+    public bool Contains(object value, int fromIndex = 0)
+    {
+        return Includes(value, fromIndex);
     }
 
     public Arr Reverse()

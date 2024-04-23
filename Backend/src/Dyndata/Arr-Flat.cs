@@ -3,13 +3,17 @@ namespace Dyndata;
 
 public partial class Arr
 {
-    private static Arr FlatRecurse(Arr org, int depth, int currentDepth = 1)
+    private static Arr FlatRecurse(
+        Arr org, long depth, long currentDepth = 1
+    )
     {
         var a = new Arr();
+        var hasSubArray = false;
         for (var i = 0; i < org.Length; i++)
         {
-            if (org[i] is Arr)
+            if (org[i] is Arr && depth >= 1)
             {
+                hasSubArray = true;
                 foreach (var item in org[i])
                 {
                     a.Push(item);
@@ -20,14 +24,14 @@ public partial class Arr
                 a.Push(org[i]);
             }
         }
-        if (currentDepth < depth)
+        if (currentDepth < depth && hasSubArray)
         {
             a = FlatRecurse(a, depth, currentDepth + 1);
         }
         return a;
     }
 
-    public Arr Flat(int depth = 1)
+    public Arr Flat(long depth = 1)
     {
         return FlatRecurse(this, depth);
     }

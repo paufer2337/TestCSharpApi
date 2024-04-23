@@ -1,4 +1,10 @@
-var x = Arr(1, 2, 3, "hepp", 5.2, "fine", 5);
+var animals = Arr("Dodo", "Tiger", "Penguin", "Dodo", "Pig");
 
-Log(x);
-Log(x.Join(", "));
+Log(animals.LastIndexOf("Dodo", 4));
+// Expected output: 3
+
+Log(animals.LastIndexOf("Dodo", 2));
+// Expected output: 0
+
+Log(animals.LastIndexOf("Tiger"));
+// Expected output: 1

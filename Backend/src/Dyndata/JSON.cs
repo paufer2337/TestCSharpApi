@@ -38,7 +38,11 @@ public static partial class JSON
     private static string Humane(string json, bool forLog = false)
     {
         Utils.SetInvariantCulture();
-        var opts = new FracturedJsonOptions() { MaxTotalLineLength = 90 };
+        var opts = new FracturedJsonOptions()
+        {
+            MaxTotalLineLength = 90,
+            MaxInlineComplexity = 3
+        };
         var formatter = new Formatter() { Options = opts };
         var output = formatter.Reformat(json, 0).Trim();
         Utils.SetOriginalCulture();
