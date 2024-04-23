@@ -1,4 +1,5 @@
 namespace Dyndata;
+using System.Globalization;
 
 // Utils:
 //
@@ -41,5 +42,18 @@ public static class Utils
             catch (Exception) { };
         }
         return value!;
+    }
+
+    private static CultureInfo orgCulture = null!;
+
+    public static void SetInvariantCulture()
+    {
+        orgCulture = CultureInfo.DefaultThreadCurrentCulture!;
+        CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
+    }
+
+    public static void SetOriginalCulture()
+    {
+        CultureInfo.DefaultThreadCurrentCulture = orgCulture;
     }
 }

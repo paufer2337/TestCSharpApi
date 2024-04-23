@@ -1,6 +1,5 @@
 namespace Dyndata;
 using Newtonsoft.Json;
-using System.Globalization;
 using FracturedJson;
 
 // Parse JSON with a focus on creating Objs and Arrs (via Utils.TryToObjOrArr)
@@ -38,12 +37,11 @@ public static partial class JSON
 
     private static string Humane(string json, bool forLog = false)
     {
-        var oldCulture = CultureInfo.DefaultThreadCurrentCulture;
-        CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
+        Utils.SetInvariantCulture();
         var opts = new FracturedJsonOptions() { MaxTotalLineLength = 90 };
         var formatter = new Formatter() { Options = opts };
         var output = formatter.Reformat(json, 0).Trim();
-        CultureInfo.DefaultThreadCurrentCulture = oldCulture;
+        Utils.SetOriginalCulture();
         var rr = RemoveAndReinsertStrings(output);
         output = forLog ? ForLog(output) : output;
         output = highlight ? Colorize(output) : output;
