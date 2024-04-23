@@ -1,15 +1,17 @@
-using System.Text.RegularExpressions;
-
 var x = Obj(new
 {
     name = "John Doe",
     hobbies = new[]{
-        new { name = "Fishing", age=20.1, advantages = new[] { "hej", "hå" } },
-        new { name = "Painting", age=21.2,advantages = new[] { "hepp", "pepp" } }
-    }
+        new { name = "Fishing 2.0 true", cool=true, age=20.2, advantages = new[] { "hej", "hå" } },
+        new { name = "Painting \"nice\"", cool=false,age=21.3,advantages = new[] { "hepp", "pepp" } }
+    },
+    good = true,
+    miles = 128000
 });
 
 x.lastName = "Pelleson";
+
+x.hobbies[0].advantages.Push(130);
 
 var a = JSON.Stringify(x);
 
@@ -21,12 +23,13 @@ dynamic b = JSON.Parse(a);
 var c = ((Arr)b.hobbies).Map(x => Obj(new { ___ = x, name = x.name + " Yo" }));
 //Log(c);
 
-// var ha = Regex.Replace(JSON.Stringify(c, true), "\"([^\"]*)\":", "\u001b[37m__quote__$1__quote__:\u001b[0m");
-// ha = Regex.Replace(ha, "\"([^\"]*)\"", "\u001b[33m\"$1\"\u001b[0m");
-// ha = ha.Replace("__quote__", "\"");
-// Log(ha);
+var g = Obj(new
+{
+    firstName = "Anders",
+    lastName = "Svensson"
+});
 
-//Log("\u001b[38;5;" + 159 + "m" + "hello stack" + "\u001b[0m" + "\u001b[" + 37 + "m" + "I am fine");
+var m = Arr(1, 2, 3, 4, 5.5);
 
-//var d = Arr(1, 2, 3, Arr(4, 5, Arr(9, 10, Arr(98, 14))), 6, 7, 8);
-//Log(d.Flat(3));
+JSON.Highlight = true;
+Log(b);

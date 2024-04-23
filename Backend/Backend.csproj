@@ -7,11 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AgileObjects.ReadableExpressions" Version="4.1.1" />
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.3" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="FracturedJson" Version="4.0.0" />
     <PackageReference Include="Z.Expressions.Eval" Version="6.1.2" />
+    <PackageReference Include="AgileObjects.ReadableExpressions" Version="4.1.1" />
   </ItemGroup>
 
    <PropertyGroup>
