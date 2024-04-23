@@ -25,6 +25,67 @@ Log(arr.Length);
 // 5
 ```
 
+### Spread syntax with Arr instances
+C# has a spread operator for collections (.. - *two dots*) that you can combine with the collection expression ([] - *square brackets*). Since Arr instances can be created from collections, this is a simple way to combine two or more Arr:s into one:
+
+```cs
+var women = Arr("Anna", "Beth", "Cecilia");
+var men = Arr("Art", "Bart", "Carl");
+
+var people = Arr([.. women, .. men]);
+Log(people);
+// Expected output: 
+// ["Anna", "Beth", "Cecilia", "Art", "Bart", "Carl"]
+```
+
+### Spread syntax with Obj instances
+C# does not, as of yet, have a spread operator that works with objects. But Obj instances interprets all properties starting with "\_\_\_" (three underscores) as spread operators.
+
+> **Note:**  Since you can't have several properties with the same name, but sometimes want to make several spreads into an object, just suffix the second, third (and so on) "spread property" with other characters. See the example below:
+
+```cs
+var ann = Obj(new
+{
+    firstName = "Ann",
+    lastName = "Adams"
+});
+
+var work = Obj(new
+{
+    jobTitle = "CEO",
+    company = "Spreads Are Us"
+});
+
+var hobbies = Obj(new
+{
+    hobbies = Arr("fishing", "football"),
+    activityLevel = "high"
+});
+
+var allAboutAnn = Obj(new
+{
+    ___ = ann,       // a spread
+    ___2 = work,     // another spread
+    ___3 = hobbies,  // a third spread
+    lazy = false,    // another property
+    stubborn = true  // another property
+});
+
+Log(allAboutAnn);
+/* Expected output:
+{
+    "firstName": "Ann", 
+    "lastName": "Adams", 
+    "jobTitle": "CEO", 
+    "company": "Spreads Are Us", 
+    "hobbies": ["fishing", "football"], 
+    "activityLevel": "high", 
+    "lazy": false, 
+    "stubborn": true
+}
+*/
+```
+
 ### Arr.Includes()
 The Includes() method of Arr instances determines whether an array includes a certain value among its entries, returning true or false as appropriate.
 
@@ -402,3 +463,140 @@ Log(arr2.Flat(Infinity));
 // expected output: [0, 1, 2, 3, 4, 5]
 ```
 
+### Arr.ForEach()
+The ForEach() method of Arr instances executes a provided function once for each array element.
+
+### Syntax 
+```cs
+ForEach(callbackFunction)
+```
+
+The callback function you provide is called with 3 arguments (of which the latter two are optional for you to include): **element** (the current element), **index** (the current index), **array** (the whole array).
+
+#### Example
+```cs
+var animals = Arr("dog", "cat", "snake");
+
+animals.ForEach(animal => Log(animal));
+// Expected output (3 lines): "dog", "cat", "snake"
+
+// The above call to ForEach is equivalent to, 
+// but more compact than, this foreach loop:
+foreach (var animal in animals)
+{
+    Log(animal);
+}
+
+animals.ForEach((animal, i) => Log($"{i + 1}. {animal}"));
+// Expected output (3 lines): "1. dog", "2. cat", "3. snake"
+
+// The above call to ForEach is equivalent to, 
+// but more compact than, this for loop:
+for (var i = 0; i < animals.Length; i++)
+{
+    Log($"{i + 1}. {animals[i]}");
+}
+```
+
+### Arr.Map()
+The Map() method of Arr instances creates a new array populated with the results of calling a provided function on every element in the calling array.
+
+#### Syntax
+```cs
+Map(callbackFunction)
+```
+
+The callback function you provide is called with 3 arguments (of which the latter two are optional for you to include): **element** (the current element), **index** (the current index), **array** (the whole array).
+
+### Example 1
+```cs
+var numbers = Arr(1, 4, 9, 16);
+
+var map1 = numbers.Map(x => x * 2);
+Log(map1);
+// Expected output: Array [2, 8, 18, 32]
+
+var map2 = numbers.Map((x, i) => x * i);
+Log(map2);
+// Expected output: Array [0, 4, 18, 48]
+```
+
+### Example 2
+When you work with arrays of objects the Map method can often be used in conjunction with a spread to create new objects based on the old ones, but with additional, calculated properties:
+
+```cs
+var people = Arr(
+    new { name = "Tom", heightFeet = Arr(5, 11) },
+    new { name = "Anna", heightFeet = Arr(5, 5) },
+    new { name = "Jean", heightFeet = Arr(6, 2) }
+);
+
+Log(people);
+/* Expected output:
+[
+    { "name": "Tom" , "heightFeet": [5, 11] }, 
+    { "name": "Anna", "heightFeet": [5,  5] }, 
+    { "name": "Jean", "heightFeet": [6,  2] }  
+]
+*/
+
+var people2 = people.Map(x => new
+{
+    // spread the original properties
+    ___ = x,
+    // add a new property
+    heightCm = Math.Round(
+        (x.heightFeet[0] * 12 + x.heightFeet[1]) * 2.54)
+});
+
+Log(people2);
+/* Expected output:
+[
+    { "name": "Tom" , "heightFeet": [5, 11], "heightCm": 180 }, 
+    { "name": "Anna", "heightFeet": [5,  5], "heightCm": 165 }, 
+    { "name": "Jean", "heightFeet": [6,  2], "heightCm": 188 }  
+]
+*/
+```
+
+### Arr.Filter()
+The Filter() method of Arr instances creates a shallow copy of a portion of a given array, filtered down to just the elements from the given array that pass the test implemented by the provided function.
+
+#### Syntax
+```cs
+Filter(callbackFunction)
+```
+
+The callback function you provide is called with 3 arguments (of which the latter two are optional for you to include): **element** (the current element), **index** (the current index), **array** (the whole array).
+
+#### Example 1
+```cs
+var words = Arr("exuberant", "spray", "elite", "destruction", "present");
+
+var result = words.Filter(word => word.Length > 6);
+
+Log(result);
+// Expected output: ["exuberant", "destruction", "present"]
+```
+
+#### Example 2
+When you work with arrays of objects the Filter method is good for filtering an array based on different object properties:
+
+```cs
+var cats = Arr(
+    new { name = "Garfield", favoriteFood = Arr("lasagna", "meat balls") },
+    new { name = "Fritz", favoriteFood = Arr("cheese", "champagne") },
+    new { name = "Tom", favoriteFood = Arr("mice", "lasagna") }
+);
+
+var catsThatLikeLasagna =
+    cats.Filter(x => x.favoriteFood.Includes("lasagna"));
+
+Log(catsThatLikeLasagna);
+/* Expected output: 
+[
+    { "name": "Garfield", "favoriteFood": ["lasagna", "meat balls"] }, 
+    { "name": "Tom"     , "favoriteFood": ["mice"   , "lasagna"   ] }  
+]
+*/
+```
