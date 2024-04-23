@@ -15,4 +15,4 @@ Log("Dumheter", 1, 2, 3, Arr(5, 6), true);
 
 Log("nice\" ho", new { firstName = "Kalle", lastName = "Carlsson" });
 
-Log("Fin logg");
+Log("true", true);

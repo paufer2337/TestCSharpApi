@@ -63,25 +63,30 @@ public static class JSON
 
     private static string Colorize(string json)
     {
-        var WHITE = "!%&€38;5;250m";
-        var ORANGE = "!%&€38;5;221m";
-        var GREEN = "!%&€38;5;150m";
-        var BLUE = "!%&€38;5;117m";
-        var GREY = "!%&€38;5;245m";
-        var DEFAULT = GREY;
-        var RESET = "!%&€0m" + DEFAULT;
+        var c = Obj(new
+        {
+            propNames = 186, // green/yellow
+            booleans = 180,  // orange
+            strings = 250,   // off-white
+            numbers = 153,   // blue
+            brackets = 245,  // gray
+            _default = 245,  // gray
+            reset = 0        // reset code
+        });
 
+        ((Arr)c.GetKeys()).ForEach(x => c[x] = "!%&€38;5;" + c[x] + "m");
+        c.reset += c._default;
         var rr = RemoveAndReinsertStrings(json);
 
-        var x = Regex.Replace(rr.str, @"([\d\.]+)", $"{BLUE}$1{RESET}");
-        x = Regex.Replace(x, "\"([^\"]*)\":", $"{WHITE}__quote__$1__quote__:{RESET}");
-        x = Regex.Replace(x, "\"([^\"]*)\"", $"{GREEN}\"$1\"{RESET}");
+        var x = Regex.Replace(rr.str, @"([\d\.]+)", $"{c.numbers}$1{c.reset}");
+        x = Regex.Replace(x, "\"([^\"]*)\":", $"{c.propNames}__quote__$1__quote__:{c.reset}");
+        x = Regex.Replace(x, "\"([^\"]*)\"", $"{c.strings}\"$1\"{c.reset}");
         x = x.Replace("__quote__", "\"");
-        x = x.Replace("true", $"{ORANGE}true{RESET}");
-        x = x.Replace("false", $"{ORANGE}false{RESET}");
+        x = x.Replace("true", $"{c.booleans}true{c.reset}");
+        x = x.Replace("false", $"{c.booleans}false{c.reset}");
         x = RemoveAndReinsertStrings(x, rr.extracted).str;
 
-        return DEFAULT + x.Replace("\n", "\n" + DEFAULT);
+        return c._default + x.Replace("\n", "\n" + c._default);
     }
 
     private static dynamic RemoveAndReinsertStrings(string json, string reinsert = "")
