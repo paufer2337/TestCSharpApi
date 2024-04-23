@@ -1,35 +1,18 @@
-var x = Obj(new
-{
-    name = "John Doe",
-    hobbies = new[]{
-        new { name = "Fishing 2.0 true", cool=true, age=20.2, advantages = new[] { "hej", "hå" } },
-        new { name = "Painting \"nice\"", cool=false,age=21.3,advantages = new[] { "hepp", "pepp" } }
-    },
-    good = true,
-    miles = 128000
-});
+var plants = Arr("broccoli", "cauliflower", "cabbage", "kale", "tomato");
 
-x.lastName = "Pelleson";
+Log(plants.Pop());
+// Expected output: "tomato"
 
-x.hobbies[0].advantages.Push(130);
+Log(plants);
+// Expected output: ["broccoli", "cauliflower", "cabbage", "kale"]
 
-var a = JSON.Stringify(x);
+plants.Pop();
 
-dynamic b = JSON.Parse(a);
+Log(plants);
+// Expected output: ["broccoli", "cauliflower", "cabbage"]
 
-//Log(x.hobbies[0].advantages.GetType());
-//Log(b.hobbies[0].advantages.GetType());
+Log("Dumheter", 1, 2, 3, Arr(5, 6), true);
 
-var c = ((Arr)b.hobbies).Map(x => Obj(new { ___ = x, name = x.name + " Yo" }));
-//Log(c);
+Log("nice\" ho", new { firstName = "Kalle", lastName = "Carlsson" });
 
-var g = Obj(new
-{
-    firstName = "Anders",
-    lastName = "Svensson"
-});
-
-var m = Arr(1, 2, 3, 4, 5.5);
-
-JSON.Highlight = true;
-Log(b);
+Log("Fin logg");

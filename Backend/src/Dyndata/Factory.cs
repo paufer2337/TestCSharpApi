@@ -35,9 +35,6 @@ public static class Factory
 
     public static void Log(params object[] paras)
     {
-        Console.WriteLine(String.Join(" ", paras
-            .Select(x => x != null ? x : "null"))
-            .Replace("'", "\"")
-        );
+        Console.WriteLine(JSON.StringifyForLog(paras) + "\r\n");
     }
 }

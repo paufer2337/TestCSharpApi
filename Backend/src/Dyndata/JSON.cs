@@ -6,6 +6,7 @@ using FracturedJson;
 // Parse JSON with a focus on creating Objs and Arrs (via Utils.TryToObjOrArr)
 // Stringify to JSON with an identation option
 // that also turns on syntax highlighting of the JSON
+// + provide a Log-specific variant for Factory.Log
 
 public static class JSON
 {
@@ -39,26 +40,36 @@ public static class JSON
         return !indented ? json : Humane(json);
     }
 
-    private static string Humane(string json)
+    public static string StringifyForLog(dynamic obj)
+    {
+        var json = JsonConvert.SerializeObject(obj);
+        return Humane(json, true);
+    }
+
+    private static string Humane(string json, bool forLog = false)
     {
         var oldCulture = CultureInfo.DefaultThreadCurrentCulture;
         CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
         var opts = new FracturedJsonOptions() { MaxTotalLineLength = 90 };
         var formatter = new Formatter() { Options = opts };
-        var output = formatter.Reformat(json, 0);
+        var output = formatter.Reformat(json, 0).Trim();
         CultureInfo.DefaultThreadCurrentCulture = oldCulture;
-        return highlight ? Colorize(output) : output;
+        output = forLog ? ForLog(output) : output;
+        output = highlight ? Colorize(output) : output;
+        output = forLog ? ForLog(output, false) : output;
+        output = highlight ? output.Replace("!%&€", "\u001b[") : output;
+        return output;
     }
 
     private static string Colorize(string json)
     {
-        var WHITE = "\u001b[38;5;250m";
-        var ORANGE = "\u001b[38;5;221m";
-        var GREEN = "\u001b[38;5;150m";
-        var BLUE = "\u001b[38;5;117m";
-        var GREY = "\u001b[38;5;245m";
+        var WHITE = "!%&€38;5;250m";
+        var ORANGE = "!%&€38;5;221m";
+        var GREEN = "!%&€38;5;150m";
+        var BLUE = "!%&€38;5;117m";
+        var GREY = "!%&€38;5;245m";
         var DEFAULT = GREY;
-        var RESET = "\u001b[0m" + DEFAULT;
+        var RESET = "!%&€0m" + DEFAULT;
 
         var rr = RemoveAndReinsertStrings(json);
 
@@ -94,5 +105,24 @@ public static class JSON
             lastChar = c;
         }
         return new { str, extracted };
+    }
+
+    private static string ForLog(string json, bool beforeColorize = true)
+    {
+        var x = beforeColorize ?
+            json.Trim('[', ']').Trim().Replace("\n    ", "\n") : json;
+        var output = "";
+        var inArr = 0;
+        var lastChar = 'x';
+        foreach (var c in x)
+        {
+            if ((c == '[' || c == '{') && lastChar != '\\') { inArr++; }
+            if ((c == ']' || c == '}') && lastChar != '\\') { inArr--; }
+            output += beforeColorize ?
+                inArr == 0 && c == ',' ? "" : c :
+                inArr == 0 && c == '"' && lastChar != '\\' ? "" : c;
+            lastChar = c;
+        }
+        return output;
     }
 }

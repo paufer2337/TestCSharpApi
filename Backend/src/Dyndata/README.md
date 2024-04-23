@@ -9,19 +9,19 @@ The length data property of an Arr instance represents the number of elements in
 ```cs
 var arr = Arr(1, 2, 3);
 
-Console.WriteLine(arr);
-// [ 1, 2, 3 ]
-Console.WriteLine(arr.Length);
+Log(arr);
+// [1, 2, 3]
+Log(arr.Length);
 // 3
 
 arr.Length = 2;
-Console.WriteLine(arr);
-// [ 1, 2]
+Log(arr);
+// [1, 2]
 
 arr.Length = 5;
-Console.WriteLine(arr);
+Log(arr);
 // [1, 2, null, null, null]
-Console.WriteLine(arr.Length);
+Log(arr.Length);
 // 5
 ```
 
@@ -32,15 +32,15 @@ The Pop() method of Arr instances removes the last element from an array and ret
 ```cs
 var plants = Arr("broccoli", "cauliflower", "cabbage", "kale", "tomato");
 
-Console.WriteLine(plants.Pop());
+Log(plants.Pop());
 // Expected output: "tomato"
 
-Console.WriteLine(plants);
+Log(plants);
 // Expected output: ["broccoli", "cauliflower", "cabbage", "kale"]
 
 plants.Pop();
 
-Console.WriteLine(plants);
+Log(plants);
 // Expected output: ["broccoli", "cauliflower", "cabbage"]
 ```
 
@@ -53,14 +53,14 @@ var animals = Arr("pigs", "goats", "sheep");
 
 var count = animals.Push("cows");
 
-Console.WriteLine(count);
+Log(count);
 // Expected output: 4
 
-Console.WriteLine(animals);
+Log(animals);
 // Expected output: ["pigs", "goats", "sheep", "cows"]
 
 animals.Push("chickens", "cats", "dogs");
-Console.WriteLine(animals);
+Log(animals);
 // Expected output: ["pigs", "goats", "sheep", "cows", "chickens", "cats", "dogs"]
 ```
 
@@ -73,10 +73,10 @@ var array1 = Arr(1, 2, 3);
 
 var firstElement = array1.Shift();
 
-Console.WriteLine(array1);
+Log(array1);
 // Expected output: [2, 3]
 
-Console.WriteLine(firstElement);
+Log(firstElement);
 // Expected output: 1
 ```
 
@@ -87,10 +87,10 @@ The Unshift() method of Arr instances adds the specified elements to the beginni
 ```cs
 var array1 = Arr(1, 2, 3);
 
-Console.WriteLine(array1.Unshift(4, 5));
+Log(array1.Unshift(4, 5));
 // Expected output: 5
 
-Console.WriteLine(array1);
+Log(array1);
 // Expected output: [4, 5, 1, 2, 3]
 ```
 
@@ -109,22 +109,22 @@ Slice(start, end);
 ```cs
 var animals = Arr("ant", "bison", "camel", "duck", "elephant");
 
-Console.WriteLine(animals.Slice(2));
+Log(animals.Slice(2));
 // Expected output: ["camel", "duck", "elephant"]
 
-Console.WriteLine(animals.Slice(2, 4));
+Log(animals.Slice(2, 4));
 // Expected output: ["camel", "duck"]
 
-Console.WriteLine(animals.Slice(1, 5));
+Log(animals.Slice(1, 5));
 // Expected output: ["bison", "camel", "duck", "elephant"]
 
-Console.WriteLine(animals.Slice(-2));
+Log(animals.Slice(-2));
 // Expected output: ["duck", "elephant"]
 
-Console.WriteLine(animals.Slice(2, -1));
+Log(animals.Slice(2, -1));
 // Expected output: ["camel", "duck"]
 
-Console.WriteLine(animals.Slice());
+Log(animals.Slice());
 // Expected output: ["ant", "bison", "camel", "duck", "elephant"]
 ```
 
@@ -151,15 +151,15 @@ var months = Arr("Jan", "March", "April", "June");
 // Inserts at index 1
 months.Splice(1, 0, "Feb");
 
-Console.WriteLine(months);
+Log(months);
 // Expected output: ["Jan", "Feb", "March", "April", "June"]
 
 // Replaces 1 element at index 4
 var removedItems = months.Splice(4, 1, "May");
 
-Console.WriteLine(removedItems);
+Log(removedItems);
 // Expected output: ["June"]
-Console.WriteLine(months);
+Log(months);
 // Expected output: ["Jan", "Feb", "March", "April", "May"]
 ```
 
@@ -183,18 +183,18 @@ var months = Arr("Jan", "Mar", "Apr", "May");
 
 // Inserting an element at index 1
 var months2 = months.ToSpliced(1, 0, "Feb");
-Console.WriteLine(months2); // ["Jan", "Feb", "Mar", "Apr", "May"]
+Log(months2); // ["Jan", "Feb", "Mar", "Apr", "May"]
 
 // Deleting two elements starting from index 2
 var months3 = months2.ToSpliced(2, 2);
-Console.WriteLine(months3); // ["Jan", "Feb", "May"]
+Log(months3); // ["Jan", "Feb", "May"]
 
 // Replacing one element at index 1 with two new elements
 var months4 = months3.ToSpliced(1, 1, "Feb", "Mar");
-Console.WriteLine(months4); // ["Jan", "Feb", "Mar", "May"]
+Log(months4); // ["Jan", "Feb", "Mar", "May"]
 
 // Original array is not modified
-Console.WriteLine(months); // ["Jan", "Mar", "Apr", "May"]
+Log(months); // ["Jan", "Mar", "Apr", "May"]
 ```
 
 ### Arr.Reverse()
@@ -205,17 +205,17 @@ To create a new Arr with the reversed element order, without mutating the origin
 #### Example
 ```cs
 var array1 = Arr("one", "two", "three");
-Console.WriteLine("array1: " + array1);
+Log("array1: " + array1);
 // Expected output: array1: ["one", "two", "three"]
 
 var reversed = array1.Reverse();
-Console.WriteLine("reversed: " + array1);
+Log("reversed: " + array1);
 // Expected output: reversed: ["three", "two", "one"]
 
 // Careful: Reverse is destructive - it changes the original array.
 // (And reversed and array1 both point to the same object.)
 
-Console.WriteLine("array1: " + array1);
+Log("array1: " + array1);
 // Expected output: array1: ["three", "two", "one"]
 ```
 
@@ -225,9 +225,9 @@ The ToReversed() method of Arr instances is the copying counterpart of the rever
 #### Example
 ```cs
 var items = Arr(1, 2, 3);
-Console.WriteLine(items); // [1, 2, 3]
+Log(items); // [1, 2, 3]
 
 var reversedItems = items.ToReversed();
-Console.WriteLine(reversedItems); // [3, 2, 1]
-Console.WriteLine(items); // [1, 2, 3]
+Log(reversedItems); // [3, 2, 1]
+Log(items); // [1, 2, 3]
 ```
