@@ -6,27 +6,28 @@ namespace Dyndata;
 public static partial class JSON
 {
 
-    private static bool highlight = true;
+    private static bool _highlight = true;
+
+    public static readonly dynamic colors = Obj(new
+    {
+        propNames = 186, // green/yellow
+        booleans = 180,  // orange
+        strings = 250,   // off-white
+        numbers = 153,   // blue
+        brackets = 245,  // gray
+        _default = 245,  // gray
+        reset = 0        // reset code
+    });
 
     public static bool Highlight
     {
-        get { return highlight; }
-        set { highlight = value; }
+        get { return _highlight; }
+        set { _highlight = value; }
     }
 
     private static string Colorize(string json)
     {
-        var c = Obj(new
-        {
-            propNames = 186, // green/yellow
-            booleans = 180,  // orange
-            strings = 250,   // off-white
-            numbers = 153,   // blue
-            brackets = 245,  // gray
-            _default = 245,  // gray
-            reset = 0        // reset code
-        });
-
+        var c = Obj(colors);
         ((Arr)c.GetKeys()).ForEach(x => c[x] = "!%&€38;5;" + c[x] + "m");
         c.reset += c._default;
         var rr = RemoveAndReinsertStrings(json);

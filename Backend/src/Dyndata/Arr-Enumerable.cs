@@ -9,7 +9,7 @@ public partial class Arr : IEnumerable<object>
         return GetEnumerator();
     }
 
-    public IEnumerator<object> GetEnumerator()
+    public IEnumerator<dynamic> GetEnumerator()
     {
         return new ArrEnum(memory.ToArray());
     }
@@ -47,7 +47,7 @@ public class ArrEnum : IEnumerator<object>
     {
         get
         {
-            try { return (dynamic)(_arr[position]); }
+            try { return _arr[position]; }
             catch (IndexOutOfRangeException)
             {
                 throw new InvalidOperationException();

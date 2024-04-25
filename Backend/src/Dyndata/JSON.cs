@@ -23,19 +23,23 @@ public static partial class JSON
         return Utils.TryToObjOrArr(parsed);
     }
 
-    public static string Stringify(dynamic obj, bool indented = false)
+    public static string Stringify(
+        dynamic obj, bool indented = false, bool highlight = false
+    )
     {
         var json = JsonConvert.SerializeObject(obj);
-        return !indented ? json : Humane(json);
+        return !indented ? json : Humane(json, false, highlight);
     }
 
     public static string StringifyForLog(dynamic obj)
     {
         var json = JsonConvert.SerializeObject(obj);
-        return Humane(json, true);
+        return Humane(json, true, _highlight);
     }
 
-    private static string Humane(string json, bool forLog = false)
+    private static string Humane(
+        string json, bool forLog = false, bool highlight = false
+    )
     {
         Utils.SetInvariantCulture();
         var opts = new FracturedJsonOptions()

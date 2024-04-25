@@ -1,37 +1,19 @@
-var ann = Obj(new
-{
-    firstName = "Ann",
-    lastName = "Adams"
-});
+var dogs = new Arr(
+    new { name = "Fido", age = 5, breed = "labrador" },
+    new { name = "Cassie", age = 8, breed = "collie" },
+    new { name = "Scooby", age = 7, breed = "Great Dane" }
+);
 
-var work = Obj(new
-{
-    jobTitle = "CEO",
-    company = "Spreads Are Us"
-});
+// Change the name of the second dog
+dogs[1].name = "Lassie";
 
-var hobbies = Obj(new
-{
-    hobbies = Arr("fishing", "football"),
-    activityLevel = "high"
-});
+Log(dogs[1].name);  // Expected output: "Lassie"
 
-var allAboutAnn = Obj(new
+foreach (var dog in dogs)
 {
-    ___ = ann,       // a spread
-    ___2 = work,     // another spread
-    ___3 = hobbies,  // a third spread
-    lazy = false,    // another property
-    stubborn = true  // another property
-});
-
-Log(allAboutAnn);
-/* Expected output:
-{
-    "firstName": "Ann", 
-    "lastName": "Adams", 
-    "jobTitle": "CEO", 
-    "company": "Spreads Are Us", 
-    "hobbies": ["fishing", "football"], 
+    Log($"{dog.name} is a {dog.age} year old {dog.breed}.");
 }
-*/
+// Expected output:
+// "Fido is a 5 year old labrador."
+// "Lassie is a 8 year old collie."
+// "Scooby is a 7 year old Great Dane."

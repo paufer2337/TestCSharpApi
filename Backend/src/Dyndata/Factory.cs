@@ -35,14 +35,25 @@ public static class Factory
 
     public static void Log(params object[] paras)
     {
-        Console.WriteLine(JSON.StringifyForLog(paras) + "\r\n");
+        var p = Arr(paras);
+        var stringColor = "\u001b[38;5;" + JSON.colors.strings + "m";
+        var resetColor = "\u001b[" + JSON.colors.reset + "m";
+        var r = p.Every(x => x is string) ?
+            stringColor + p.Join(" ") + resetColor : JSON.StringifyForLog(p);
+        Console.WriteLine(r + (_logExtraNewLine ? "\r\n" : ""));
     }
 
-    public static bool Highlight
+    public static bool LogHighlight
     {
         get { return JSON.Highlight; }
         set { JSON.Highlight = value; }
     }
 
-    public static readonly long Infinity = long.MaxValue;
+    private static bool _logExtraNewLine = true;
+
+    public static bool LogExtraNewline
+    {
+        get { return _logExtraNewLine; }
+        set { _logExtraNewLine = value; }
+    }
 }
