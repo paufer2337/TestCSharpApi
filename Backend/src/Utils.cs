@@ -3,7 +3,7 @@ public static class Utils
 {
     public static int SumInts(int a, int b)
     {
-        return a + b;
+        return a + b + 1;
     }
 
     public static Arr CreateMockUsers()
