@@ -1,0 +1,15 @@
+{
+  "counter": 0,
+  "categories": [
+    {
+      "name": "Grönsaker",
+      "description": "Färska grönsaker."
+    },
+    {
+      "name": "Grönsaker",
+      "description": "Färska frukter."
+    }
+  ],
+  "products": [],
+  "comments": []
+}
