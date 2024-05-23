@@ -64,6 +64,23 @@ public static class Utils
         return successFullyWrittenUsers;
     }
 
-    // Now write the two last ones yourself!
-    // See: https://sys23m-jensen.lms.nodehill.se/uploads/videos/2021-05-18T15-38-54/sysa-23-presentation-2024-05-02-updated.html#8
+        public static Arr RemoveMockUsers()
+    {
+        var read = File.ReadAllText(FilePath("json", "mock-users.json"));
+        Arr mockUsers = JSON.Parse(read);
+        Arr removedMockUsers = Arr();
+        foreach (var user in mockUsers)
+        {
+            var result = SQLQueryOne(
+                @"delete from users where firstName = $firstName and lastName = $lastName",
+                user);
+
+            if (!result.HasKey("error"))
+            {
+                user.Delete("password");
+                removedMockUsers.Push(user);
+            }
+        }
+        return removedMockUsers;
+    }
 }

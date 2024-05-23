@@ -70,9 +70,24 @@ public class UtilsTest(Xlog Console)
         Console.WriteLine("The test also asserts that the users added " +
             "are equivalent (the same) as the expected users!");
         Assert.Equivalent(mockUsersNotInDb, result);
-        Console.WriteLine("The test passed!");
+        Console.WriteLine("Test has passed correctly");
     }
 
-    // Now write the two last ones yourself!
-    // See: https://sys23m-jensen.lms.nodehill.se/uploads/videos/2021-05-18T15-38-54/sysa-23-presentation-2024-05-02-updated.html#8
+    [Fact]
+    public void TestRemoveMockUsers()
+    {
+        var read = File.ReadAllText(FilePath("json", "mock-users.json"));
+        Arr mockUsers = JSON.Parse(read);
+        var removedMockUsers = Utils.RemoveMockUsers();
+        Arr removedMockUserEmails = removedMockUsers.Map(user => user.email);
+        Arr remainedUsersInDb = SQLQuery("select email from users");
+        foreach (var user in removedMockUsers)
+        {
+            Assert.DoesNotContain(user.email, remainedUsersInDb.Map(u => u.email));
+        }
+        Assert.Equivalent(mockUsers, removedMockUsers);
+
+        Console.WriteLine($"{removedMockUsers.Length} the mock users has succesfully been removed from db");
+        Console.WriteLine("Test has passed correctly");
+    }
 }
