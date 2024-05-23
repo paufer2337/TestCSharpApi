@@ -78,4 +78,15 @@ public static class Utils
         }
         return removedMockUsers;
     }
+
+    public static Obj CountDomainsFromUserEmails()
+    {
+        Arr queryDomains = SQLQuery("SELECT SUBSTRING(email, instr(email, '@') + 1, length(email)) AS domain, count(id) AS count FROM users GROUP BY domain");
+        Obj countedDomains = Obj();
+        foreach(var domain in queryDomains)
+        {
+            countedDomains[domain.domain] = domain.count;
+        }
+        return countedDomains;
+    }
 }

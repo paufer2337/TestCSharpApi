@@ -90,4 +90,26 @@ public class UtilsTest(Xlog Console)
         Console.WriteLine($"{removedMockUsers.Length} the mock users has succesfully been removed from db");
         Console.WriteLine("Test has passed correctly");
     }
+
+    [Fact]
+    public void CountDomainsFromUserEmails()
+    {
+        Arr users = SQLQuery("SELECT email FROM users");
+        Obj domainsInDb = Obj();
+        foreach (var user in users)
+        {
+            string domain = user.email.Split('@')[1];
+            if(!domainsInDb.HasKey(domain))
+            {
+                domainsInDb[domain] = 1;
+            }
+            else
+            {
+                domainsInDb[domain]++;
+            }
+        }
+        Assert.Equivalent(domainsInDb, Utils.CountDomainsFromUserEmails());
+        
+        Console.WriteLine("All tests has finally passed correctly!");
+    }
 }
