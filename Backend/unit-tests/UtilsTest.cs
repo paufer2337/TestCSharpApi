@@ -46,9 +46,9 @@ public class UtilsTest(Xlog Console)
         "Rhinos have a --- ---? (or what should I call it) on " +
             "their heads. And doorknobs are --- round."
     )]
-    public void TestRemoveBadWords(string replaceWith, string original, string expected)
+    public void TestDeleteBadWords(string replaceWith, string original, string expected)
     {
-        Assert.Equal(expected, Utils.RemoveBadWords(original, replaceWith));
+        Assert.Equal(expected, Utils.DeleteBadWords(original, replaceWith));
     }
 
     [Fact]
@@ -74,7 +74,7 @@ public class UtilsTest(Xlog Console)
     }
 
     [Fact]
-    public void TestRemoveMockUsers()
+    public void RemoveMockUsers()
     {
         var read = File.ReadAllText(FilePath("json", "mock-users.json"));
         Arr mockUsers = JSON.Parse(read);

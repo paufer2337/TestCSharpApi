@@ -1,17 +1,9 @@
 namespace WebApp;
 public static class Utils
 {
-    // Read all mock users from file
     private static readonly Arr mockUsers = JSON.Parse(
         File.ReadAllText(FilePath("json", "mock-users.json"))
     );
-
-    // Read all bad words from file and sort from longest to shortest
-    // if we didn't sort we would often get "---ing" instead of "---" etc.
-    // (Comment out the sort - run the unit tests and see for yourself...)
-    private static readonly Arr badWords = ((Arr)JSON.Parse(
-        File.ReadAllText(FilePath("json", "bad-words.json"))
-    )).Sort((a, b) => ((string)b).Length - ((string)a).Length);
 
     public static bool IsPasswordGoodEnough(string password)
     {
@@ -24,16 +16,21 @@ public static class Utils
 
     public static bool IsPasswordGoodEnoughRegexVersion(string password)
     {
-        // See: https://dev.to/rasaf_ibrahim/write-regex-password-validation-like-a-pro-5175
+        
         var pattern = @"^(?=.*[0-9])(?=.*[a-zåäö])(?=.*[A-ZÅÄÖ])(?=.*\W).{8,}$";
         return Regex.IsMatch(password, pattern);
     }
 
-    public static string RemoveBadWords(string comment, string replaceWith = "---")
+    private static readonly Arr badWords = ((Arr)JSON.Parse(
+        File.ReadAllText(FilePath("json", "bad-words.json"))
+    )).Sort((a, b) => ((string)b).Length - ((string)a).Length);
+
+    public static string DeleteBadWords(string comment, string replaceWith = "---")
     {
         comment = " " + comment;
         replaceWith = " " + replaceWith + "$1";
         badWords.ForEach(bad =>
+
         {
             var pattern = @$" {bad}([\,\.\!\?\:\; ])";
             comment = Regex.Replace(
@@ -52,11 +49,9 @@ public static class Utils
                 @"INSERT INTO users(firstName,lastName,email,password)
                 VALUES($firstName, $lastName, $email, $password)
             ", user);
-            // If we get an error from the DB then we haven't added
-            // the mock users, if not we have so add to the successful list
+
             if (!result.HasKey("error"))
             {
-                // The specification says return the user list without password
                 user.Delete("password");
                 successFullyWrittenUsers.Push(user);
             }
