@@ -79,9 +79,9 @@ public class UtilsTest(Xlog Console)
     string jsonData = File.ReadAllText(FilePath("json", "mock-users.json"));
     Arr mockData = JSON.Parse(jsonData);
     Arr usersRemoved = Utils.RemoveMockUsers();
-
     Arr removedUsersEmail = usersRemoved.Map(user => user.email);
     Arr UsersInDatabase = SQLQuery("select email from users");
+
     foreach (var removedUser in usersRemoved)
     {
         Assert.DoesNotContain(removedUser.email, UsersInDatabase.Map(dbUser => dbUser.email));
@@ -94,9 +94,9 @@ public class UtilsTest(Xlog Console)
     [Fact]
     public void TestCountDomainsFromUserEmails()
     {
-
         Obj domainCounts = Utils.CountDomainsFromUserEmails();
         Arr users = SQLQuery("SELECT email FROM users");
+
         Dictionary<string, int> expectedCounts = new Dictionary<string, int>();
 
         foreach (var user in users)
@@ -108,9 +108,9 @@ public class UtilsTest(Xlog Console)
             {
                 string domain = parts[1];
                 if (!expectedCounts.ContainsKey(domain))
-                    expectedCounts[domain] = 1;
+                expectedCounts[domain] = 1;
                 else
-                    expectedCounts[domain]++;
+                expectedCounts[domain]++;
             }
         }
         
