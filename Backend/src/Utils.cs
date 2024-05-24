@@ -59,34 +59,50 @@ public static class Utils
         return successFullyWrittenUsers;
     }
 
-        public static Arr RemoveMockUsers()
+    public static Arr RemoveMockUsers()
     {
-        var read = File.ReadAllText(FilePath("json", "mock-users.json"));
-        Arr mockUsers = JSON.Parse(read);
-        Arr removedMockUsers = Arr();
-        foreach (var user in mockUsers)
+    string jsonData = File.ReadAllText(FilePath("json", "mock-users.json"));
+    Arr usersArray = JSON.Parse(jsonData);
+    Arr RemovedUsers = Arr();
+        foreach (var mockUser in usersArray)
         {
-            var result = SQLQueryOne(
-                @"delete from users where firstName = $firstName and lastName = $lastName",
-                user);
-
-            if (!result.HasKey("error"))
+            var deletionResult = SQLQueryOne(
+            @"DELETE FROM users WHERE firstName = $firstName AND lastName = $lastName",
+            mockUser);
+            if (!deletionResult.HasKey("error"))
             {
-                user.Delete("password");
-                removedMockUsers.Push(user);
+            mockUser.Delete("password");
+            RemovedUsers.Push(mockUser);
             }
         }
-        return removedMockUsers;
+            return RemovedUsers;
     }
 
     public static Obj CountDomainsFromUserEmails()
     {
-        Arr queryDomains = SQLQuery("SELECT SUBSTRING(email, instr(email, '@') + 1, length(email)) AS domain, count(id) AS count FROM users GROUP BY domain");
-        Obj countedDomains = Obj();
-        foreach(var domain in queryDomains)
+        Arr users = SQLQuery("SELECT email FROM users");
+
+        Dictionary<string, int> domainCounts = new Dictionary<string, int>();
+
+        foreach (var user in users)
         {
-            countedDomains[domain.domain] = domain.count;
+            string email = user.email;
+            string[] parts = email.Split('@');
+            if (parts.Length == 2)
+            {
+                string domain = parts[1];
+                if (!domainCounts.ContainsKey(domain))
+                domainCounts[domain] = 1;
+                else
+                domainCounts[domain]++;
+            }
         }
-        return countedDomains;
+
+        Obj result = Obj();
+        foreach (var entry in domainCounts)
+        {
+            result[entry.Key] = entry.Value;
+        }
+            return result;
     }
 }

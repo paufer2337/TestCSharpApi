@@ -74,42 +74,51 @@ public class UtilsTest(Xlog Console)
     }
 
     [Fact]
-    public void RemoveMockUsers()
+    public void MockUsersRemoved()
     {
-        var read = File.ReadAllText(FilePath("json", "mock-users.json"));
-        Arr mockUsers = JSON.Parse(read);
-        var removedMockUsers = Utils.RemoveMockUsers();
-        Arr removedMockUserEmails = removedMockUsers.Map(user => user.email);
-        Arr remainedUsersInDb = SQLQuery("select email from users");
-        foreach (var user in removedMockUsers)
-        {
-            Assert.DoesNotContain(user.email, remainedUsersInDb.Map(u => u.email));
-        }
-        Assert.Equivalent(mockUsers, removedMockUsers);
+    string jsonData = File.ReadAllText(FilePath("json", "mock-users.json"));
+    Arr mockData = JSON.Parse(jsonData);
+    Arr usersRemoved = Utils.RemoveMockUsers();
 
-        Console.WriteLine($"{removedMockUsers.Length} the mock users has succesfully been removed from db");
-        Console.WriteLine("Test has passed correctly");
+    Arr removedUsersEmail = usersRemoved.Map(user => user.email);
+    Arr UsersInDatabase = SQLQuery("select email from users");
+    foreach (var removedUser in usersRemoved)
+    {
+        Assert.DoesNotContain(removedUser.email, UsersInDatabase.Map(dbUser => dbUser.email));
+    }
+    Assert.Equivalent(mockData, usersRemoved);
+    Console.WriteLine($"{usersRemoved.Length} users were successfully removed from the database");
     }
 
+
     [Fact]
-    public void CountDomainsFromUserEmails()
+    public void TestCountDomainsFromUserEmails()
     {
+
+        Obj domainCounts = Utils.CountDomainsFromUserEmails();
         Arr users = SQLQuery("SELECT email FROM users");
-        Obj domainsInDb = Obj();
+        Dictionary<string, int> expectedCounts = new Dictionary<string, int>();
+
         foreach (var user in users)
         {
-            string domain = user.email.Split('@')[1];
-            if(!domainsInDb.HasKey(domain))
+        string email = user.email;
+        string[] parts = email.Split('@');
+
+            if (parts.Length == 2)
             {
-                domainsInDb[domain] = 1;
-            }
-            else
-            {
-                domainsInDb[domain]++;
+                string domain = parts[1];
+                if (!expectedCounts.ContainsKey(domain))
+                    expectedCounts[domain] = 1;
+                else
+                    expectedCounts[domain]++;
             }
         }
-        Assert.Equivalent(domainsInDb, Utils.CountDomainsFromUserEmails());
         
-        Console.WriteLine("All tests has finally passed correctly!");
+        foreach (var entry in expectedCounts)
+        {
+            Assert.True(domainCounts.HasKey(entry.Key));
+            Assert.Equal(entry.Value, (int)domainCounts[entry.Key]);
+        }
+        Console.WriteLine("All tests for counting domainshave passed successfully!");
     }
 }
