@@ -14,9 +14,8 @@ public static class Utils
             && password.Any(x => !Char.IsLetterOrDigit(x));
     }
 
-    public static bool IsPasswordGoodEnoughRegexVersion(string password)
+    public static bool PasswordGoodEnough(string password)
     {
-        
         var pattern = @"^(?=.*[0-9])(?=.*[a-zåäö])(?=.*[A-ZÅÄÖ])(?=.*\W).{8,}$";
         return Regex.IsMatch(password, pattern);
     }
@@ -30,13 +29,12 @@ public static class Utils
         comment = " " + comment;
         replaceWith = " " + replaceWith + "$1";
         badWords.ForEach(bad =>
-
         {
             var pattern = @$" {bad}([\,\.\!\?\:\; ])";
             comment = Regex.Replace(
-                comment, pattern, replaceWith, RegexOptions.IgnoreCase);
+            comment, pattern, replaceWith, RegexOptions.IgnoreCase);
         });
-        return comment[1..];
+            return comment[1..];
     }
 
     public static Arr CreateMockUsers()
@@ -56,32 +54,33 @@ public static class Utils
                 successFullyWrittenUsers.Push(user);
             }
         }
-        return successFullyWrittenUsers;
+                return successFullyWrittenUsers;
     }
 
     public static Arr RemoveMockUsers()
     {
-    string jsonData = File.ReadAllText(FilePath("json", "mock-users.json"));
-    Arr usersArray = JSON.Parse(jsonData);
-    Arr RemovedUsers = Arr();
-        foreach (var mockUser in usersArray)
+        var usersArray = JSON.Parse(File.ReadAllText(FilePath("json", "mock-users.json")));
+        var removedUsers = new Arr();
+
+        foreach (var user in usersArray)
         {
             var deletionResult = SQLQueryOne(
-            @"DELETE FROM users WHERE firstName = $firstName AND lastName = $lastName",
-            mockUser);
+            @"DELETE FROM users WHERE email = $email",
+            new { email = user.email }
+            );
+
             if (!deletionResult.HasKey("error"))
             {
-            mockUser.Delete("password");
-            RemovedUsers.Push(mockUser);
+            user.Delete("password");
+            removedUsers.Push(user);
             }
         }
-            return RemovedUsers;
+            return removedUsers;
     }
 
     public static Obj CountDomainsFromUserEmails()
     {
         Arr users = SQLQuery("SELECT email FROM users");
-
         Dictionary<string, int> domainCounts = new Dictionary<string, int>();
 
         foreach (var user in users)
@@ -99,6 +98,7 @@ public static class Utils
         }
 
         Obj result = Obj();
+        
         foreach (var entry in domainCounts)
         {
             result[entry.Key] = entry.Value;

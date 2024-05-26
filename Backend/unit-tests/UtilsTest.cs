@@ -26,9 +26,9 @@ public class UtilsTest(Xlog Console)
     [InlineData("abCd#fgh", false)] // no digit
     [InlineData("abc9#fgh", false)] // no capital letter
     [InlineData("abC9efgh", false)] // no special character
-    public void TestIsPasswordGoodEnoughRegexVersion(string password, bool expected)
+    public void TestPasswordGoodEnough(string password, bool expected)
     {
-        Assert.Equal(expected, Utils.IsPasswordGoodEnoughRegexVersion(password));
+        Assert.Equal(expected, Utils.PasswordGoodEnough(password));
     }
 
     [Theory]
@@ -76,25 +76,21 @@ public class UtilsTest(Xlog Console)
     [Fact]
     public void MockUsersRemoved()
     {
-    string jsonData = File.ReadAllText(FilePath("json", "mock-users.json"));
-    Arr mockData = JSON.Parse(jsonData);
-    Arr usersRemoved = Utils.RemoveMockUsers();
-
-    Arr removedUsersEmail = usersRemoved.Map(user => user.email);
-    Arr UsersInDatabase = SQLQuery("select email from users");
-    foreach (var removedUser in usersRemoved)
-    {
-        Assert.DoesNotContain(removedUser.email, UsersInDatabase.Map(dbUser => dbUser.email));
+        var mockData = JSON.Parse(File.ReadAllText(FilePath("json", "mock-users.json")));
+        var removedUsers = Utils.RemoveMockUsers();
+        var removedUsersEmails = removedUsers.Map(user => user.email);
+        var usersInDatabaseEmails = SQLQuery("SELECT email FROM users").Map(dbUser => dbUser.email);
+        foreach (var removedUserEmail in removedUsersEmails)
+        {
+            Assert.DoesNotContain(removedUserEmail, usersInDatabaseEmails);
+        }
+        Assert.Equivalent(mockData, removedUsers);
+        Console.WriteLine($"{removedUsers.Length} users were successfully removed from the database");
     }
-    Assert.Equivalent(mockData, usersRemoved);
-    Console.WriteLine($"{usersRemoved.Length} users were successfully removed from the database");
-    }
-
 
     [Fact]
     public void TestCountDomainsFromUserEmails()
     {
-
         Obj domainCounts = Utils.CountDomainsFromUserEmails();
         Arr users = SQLQuery("SELECT email FROM users");
         Dictionary<string, int> expectedCounts = new Dictionary<string, int>();
@@ -119,6 +115,6 @@ public class UtilsTest(Xlog Console)
             Assert.True(domainCounts.HasKey(entry.Key));
             Assert.Equal(entry.Value, (int)domainCounts[entry.Key]);
         }
-        Console.WriteLine("All tests for counting domainshave passed successfully!");
+            Console.WriteLine("Tests passed successfully!");
     }
 }
