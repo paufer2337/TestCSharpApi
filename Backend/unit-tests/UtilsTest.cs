@@ -26,9 +26,9 @@ public class UtilsTest(Xlog Console)
     [InlineData("abCd#fgh", false)] // no digit
     [InlineData("abc9#fgh", false)] // no capital letter
     [InlineData("abC9efgh", false)] // no special character
-    public void TestIsPasswordGoodEnoughRegexVersion(string password, bool expected)
+    public void TestPasswordGoodEnough(string password, bool expected)
     {
-        Assert.Equal(expected, Utils.IsPasswordGoodEnoughRegexVersion(password));
+        Assert.Equal(expected, Utils.PasswordGoodEnough(password));
     }
 
     [Theory]
@@ -46,9 +46,9 @@ public class UtilsTest(Xlog Console)
         "Rhinos have a --- ---? (or what should I call it) on " +
             "their heads. And doorknobs are --- round."
     )]
-    public void TestRemoveBadWords(string replaceWith, string original, string expected)
+    public void TestDeleteBadWords(string replaceWith, string original, string expected)
     {
-        Assert.Equal(expected, Utils.RemoveBadWords(original, replaceWith));
+        Assert.Equal(expected, Utils.DeleteBadWords(original, replaceWith));
     }
 
     [Fact]
@@ -70,9 +70,52 @@ public class UtilsTest(Xlog Console)
         Console.WriteLine("The test also asserts that the users added " +
             "are equivalent (the same) as the expected users!");
         Assert.Equivalent(mockUsersNotInDb, result);
-        Console.WriteLine("The test passed!");
+        Console.WriteLine("Test has passed correctly");
     }
 
-    // Now write the two last ones yourself!
-    // See: https://sys23m-jensen.lms.nodehill.se/uploads/videos/2021-05-18T15-38-54/sysa-23-presentation-2024-05-02-updated.html#8
+    [Fact]
+    public void MockUsersRemoved()
+    {
+        var mockData = JSON.Parse(File.ReadAllText(FilePath("json", "mock-users.json")));
+        var removedUsers = Utils.RemoveMockUsers();
+        var removedUsersEmails = removedUsers.Map(user => user.email);
+        var usersInDatabaseEmails = SQLQuery("SELECT email FROM users").Map(dbUser => dbUser.email);
+        foreach (var removedUserEmail in removedUsersEmails)
+        {
+            Assert.DoesNotContain(removedUserEmail, usersInDatabaseEmails);
+        }
+        Assert.Equivalent(mockData, removedUsers);
+        Console.WriteLine($"{removedUsers.Length} users were successfully removed from the database");
+    }
+
+    [Fact]
+    public void TestCountDomainsFromUserEmails()
+    {
+        Obj domainCounts = Utils.CountDomainsFromUserEmails();
+        Arr users = SQLQuery("SELECT email FROM users");
+
+        Dictionary<string, int> expectedCounts = new Dictionary<string, int>();
+
+        foreach (var user in users)
+        {
+        string email = user.email;
+        string[] parts = email.Split('@');
+
+            if (parts.Length == 2)
+            {
+                string domain = parts[1];
+                if (!expectedCounts.ContainsKey(domain))
+                expectedCounts[domain] = 1;
+                else
+                expectedCounts[domain]++;
+            }
+        }
+        
+        foreach (var entry in expectedCounts)
+        {
+            Assert.True(domainCounts.HasKey(entry.Key));
+            Assert.Equal(entry.Value, (int)domainCounts[entry.Key]);
+        }
+            Console.WriteLine("Tests passed successfully!");
+    }
 }

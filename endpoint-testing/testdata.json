@@ -1,14 +1,44 @@
 {
   "categories": [
     {
-      "name": "Grönsaker",
-      "description": "Färska grönsaker."
+      "name": "Sällskapshund",
+      "description": "För den mer oerfarne eller för den som bara letar efter en ny soff-kompis."
     },
     {
-      "name": "Frukter",
-      "description": "Färska frukter."
+      "name": "Brukshund",
+      "description": "Skarpa arbetshundar som är framavlade för olika grenar samt yrken."
+    },
+    {
+      "name": "Kamphund",
+      "description": "Olika kamphundsraser för både sport och sällskap för den mer aktive."
     }
   ],
-  "products": [],
-  "comments": []
+  "products": [
+    {
+    "name": "Mops",
+    "description": "Sönderavlad liten mops.",
+    "price": 10000,
+    "categoryId": "Sällskapshund"
+    },
+    {
+    "name": "Australian Kelpie",
+    "description": "Energisk vallhund som klättrar på väggarna och kräver mycket arbete. Passar Allround, allt från agility samt tjänst både polis och militärt",
+    "price": 17000,
+    "categoryId": "Brukshund"
+    }
+  ],
+  "comments": [
+    {
+    "comment": "Gullig liten krabat!",
+    "productId": "Mops",
+    "userId": 3
+    }
+  ],
+  "commentsByUser": [
+    {
+    "comment": "Underbar arbetskamrat som myskompis",
+    "productId": "Australian Kelpie",
+    "userId": 4
+    }
+  ]
 }

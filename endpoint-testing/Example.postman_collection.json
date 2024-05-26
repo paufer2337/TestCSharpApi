@@ -76,14 +76,14 @@
 							"      \"categoryId\": \"Brukshund\"",
 							"    }",
 							"  ],",
-							"  \"commentsAdminMakes\": [",
+							"  \"commentsByAdmin\": [",
 							"    {",
 							"      \"comment\": \"Gullig liten krabat!\",",
 							"      \"productId\": \"Mops\",",
 							"      \"userId\": 3",
 							"    }",
 							"  ],",
-							"    \"commentsUserMakes\": [",
+							"    \"commentsByUser\": [",
 							"    {",
 							"      \"comment\": \"Underbar arbetskamrat som myskompis\",",
 							"      \"productId\": \"Australian Kelpie\",",
@@ -994,7 +994,7 @@
 							"let testData = pm.collectionVariables.get(\"testData\");\r",
 							"\r",
 							"// Get the current comments\r",
-							"let comment = testData.commentsAdminMakes[testData.counter];\r",
+							"let comment = testData.commentsByAdmin[testData.counter];\r",
 							"\r",
 							"// Replace the comment name in the property comment..\r",
 							"// with actual id of the category\r",
@@ -1027,7 +1027,7 @@
 							"// Get the test data\r",
 							"let testData = pm.collectionVariables.get(\"testData\");\r",
 							"// Get the current comments\r",
-							"let comment = testData.commentsAdminMakes[testData.counter];\r",
+							"let comment = testData.commentsByAdmin[testData.counter];\r",
 							"\r",
 							"// Read the response\r",
 							"let response = pm.response;\r",
@@ -1062,7 +1062,7 @@
 							"\r",
 							"// If there are more products - then \"loop\"\r",
 							"// through them using setNextRequest\r",
-							"if(testData.commentsAdminMakes[testData.counter]){\r",
+							"if(testData.commentsByAdmin[testData.counter]){\r",
 							"    pm.execution.setNextRequest(\"Create comments\");\r",
 							"}\r",
 							"// Otherwise console.log \"All done\"\r",
@@ -1118,7 +1118,7 @@
 							"// Get the test data\r",
 							"let testData = pm.collectionVariables.get(\"testData\");\r",
 							"// Get the current category\r",
-							"let comment = testData.commentsAdminMakes[testData.counter];\r",
+							"let comment = testData.commentsByAdmin[testData.counter];\r",
 							"\r",
 							"// Set a pm variable to id (it is used in the request url)\r",
 							"pm.variables.set(\"commentId\", comment.id); "
@@ -1134,7 +1134,7 @@
 							"// Get the test data\r",
 							"let testData = pm.collectionVariables.get(\"testData\");\r",
 							"// Get the current comments\r",
-							"let comment = testData.commentsAdminMakes[testData.counter];\r",
+							"let comment = testData.commentsByAdmin[testData.counter];\r",
 							"\r",
 							"// Read the response\r",
 							"let response = pm.response;\r",
@@ -1160,7 +1160,7 @@
 							"\r",
 							"// If there are more comments - then \"loop\"\r",
 							"// through them using setNextRequest\r",
-							"if(testData.commentsAdminMakes[testData.counter]){\r",
+							"if(testData.commentsByAdmin[testData.counter]){\r",
 							"    pm.execution.setNextRequest(\"Get comments\");\r",
 							"}\r",
 							"// Otherwise console.log \"All done\"\r",
@@ -1208,7 +1208,7 @@
 							"// Get the test data\r",
 							"let testData = pm.collectionVariables.get(\"testData\");\r",
 							"// Get the current product\r",
-							"let comment = testData.commentsAdminMakes[testData.counter];\r",
+							"let comment = testData.commentsByAdmin[testData.counter];\r",
 							"\r",
 							"// Change the description and save to collectionVariables\r",
 							"comment.comment += \" Some extra text in the comment.\";\r",
@@ -1233,7 +1233,7 @@
 							"// Get the test data\r",
 							"let testData = pm.collectionVariables.get(\"testData\");\r",
 							"// Get the current comment\r",
-							"let comment = testData.commentsAdminMakes[testData.counter];\r",
+							"let comment = testData.commentsByAdmin[testData.counter];\r",
 							"\r",
 							"// Read the response\r",
 							"let response = pm.response;\r",
@@ -1256,7 +1256,7 @@
 							"\r",
 							"// If there are more comments - then \"loop\"\r",
 							"// through them using setNextRequest\r",
-							"if(testData.commentsAdminMakes[testData.counter]){\r",
+							"if(testData.commentsByAdmin[testData.counter]){\r",
 							"    pm.execution.setNextRequest(\"Change comments\");\r",
 							"}\r",
 							"// Otherwise console.log \"All done\"\r",
@@ -1313,7 +1313,7 @@
 							"// Get the test data\r",
 							"let testData = pm.collectionVariables.get(\"testData\");\r",
 							"// Get the current category\r",
-							"let comment = testData.commentsAdminMakes[testData.counter];\r",
+							"let comment = testData.commentsByAdmin[testData.counter];\r",
 							"\r",
 							"// Set a pm variable to id (it is used in the request url)\r",
 							"pm.variables.set(\"commentId\", comment.id); "
@@ -1329,7 +1329,7 @@
 							"// Get the test data\r",
 							"let testData = pm.collectionVariables.get(\"testData\");\r",
 							"// Get the current comments\r",
-							"let comment = testData.commentsAdminMakes[testData.counter];\r",
+							"let comment = testData.commentsByAdmin[testData.counter];\r",
 							"\r",
 							"// Read the response\r",
 							"let response = pm.response;\r",
@@ -1355,7 +1355,7 @@
 							"\r",
 							"// If there are more comments - then \"loop\"\r",
 							"// through them using setNextRequest\r",
-							"if(testData.commentsAdminMakes[testData.counter]){\r",
+							"if(testData.commentsByAdmin[testData.counter]){\r",
 							"    pm.execution.setNextRequest(\"Get comments after change\");\r",
 							"}\r",
 							"// Otherwise console.log \"All done\"\r",
@@ -2157,7 +2157,7 @@
 					"script": {
 						"exec": [
 							"let testData = pm.collectionVariables.get(\"testData\");\r",
-							"let comment = testData.commentsUserMakes[testData.counter];\r",
+							"let comment = testData.commentsByUser[testData.counter];\r",
 							"\r",
 							"let commentWithMatchingName = testData.products.find(product => \r",
 							"{\r",
@@ -2179,7 +2179,7 @@
 					"script": {
 						"exec": [
 							"let testData = pm.collectionVariables.get(\"testData\");\r",
-							"let comment = testData.commentsUserMakes[testData.counter];\r",
+							"let comment = testData.commentsByUser[testData.counter];\r",
 							"\r",
 							"let response = pm.response;\r",
 							"let responseData = pm.response.json();\r",
@@ -2204,7 +2204,7 @@
 							"testData.counter++;\r",
 							"pm.collectionVariables.set(\"testData\",testData);\r",
 							"\r",
-							"if(testData.commentsUserMakes[testData.counter])\r",
+							"if(testData.commentsByUser[testData.counter])\r",
 							"{\r",
 							"    pm.execution.setNextRequest(\"Create user comments\");\r",
 							"}\r",
@@ -2258,7 +2258,7 @@
 					"script": {
 						"exec": [
 							"let testData = pm.collectionVariables.get(\"testData\");\r",
-							"let comment = testData.commentsUserMakes[testData.counter];\r",
+							"let comment = testData.commentsByUser[testData.counter];\r",
 							"\r",
 							"pm.variables.set(\"userCommentId\", comment.id); "
 						],
@@ -2271,7 +2271,7 @@
 					"script": {
 						"exec": [
 							"let testData = pm.collectionVariables.get(\"testData\");\r",
-							"let comment = testData.commentsUserMakes[testData.counter];\r",
+							"let comment = testData.commentsByUser[testData.counter];\r",
 							"\r",
 							"let response = pm.response;\r",
 							"let responseData = pm.response.json();\r",
@@ -2289,7 +2289,7 @@
 							"testData.counter++;\r",
 							"pm.collectionVariables.set(\"testData\",testData);\r",
 							"\r",
-							"if(testData.commentsUserMakes[testData.counter])\r",
+							"if(testData.commentsByUser[testData.counter])\r",
 							"{\r",
 							"    pm.execution.setNextRequest(\"Get user comments\");\r",
 							"}\r",
@@ -2335,7 +2335,7 @@
 					"script": {
 						"exec": [
 							"let testData = pm.collectionVariables.get(\"testData\");\r",
-							"let comment = testData.commentsUserMakes[testData.counter];\r",
+							"let comment = testData.commentsByUser[testData.counter];\r",
 							"\r",
 							"comment.comment += \" Some extra text in the comment.\";\r",
 							"pm.collectionVariables.set(\"testData\", testData);\r",
@@ -2354,7 +2354,7 @@
 					"script": {
 						"exec": [
 							"let testData = pm.collectionVariables.get(\"testData\");\r",
-							"let comment = testData.commentsUserMakes[testData.counter];\r",
+							"let comment = testData.commentsByUser[testData.counter];\r",
 							"\r",
 							"let response = pm.response;\r",
 							"let responseData = pm.response.json();\r",
@@ -2367,7 +2367,7 @@
 							"testData.counter++;\r",
 							"pm.collectionVariables.set(\"testData\",testData);\r",
 							"\r",
-							"if(testData.commentsUserMakes[testData.counter])\r",
+							"if(testData.commentsByUser[testData.counter])\r",
 							"{\r",
 							"    pm.execution.setNextRequest(\"Change user comments\");\r",
 							"}\r",
@@ -2422,7 +2422,7 @@
 					"script": {
 						"exec": [
 							"let testData = pm.collectionVariables.get(\"testData\");",
-							"let comment = testData.commentsUserMakes[testData.counter];",
+							"let comment = testData.commentsByUser[testData.counter];",
 							"",
 							"pm.environment.set(\"userCommentId\", comment.id);"
 						],
@@ -2435,7 +2435,7 @@
 					"script": {
 						"exec": [
 							"let testData = pm.collectionVariables.get(\"testData\");",
-							"let comment = testData.commentsUserMakes[testData.counter];",
+							"let comment = testData.commentsByUser[testData.counter];",
 							"",
 							"let response = pm.response;",
 							"let responseData = pm.response.json();",
@@ -2448,7 +2448,7 @@
 							"testData.counter++;",
 							"pm.collectionVariables.set(\"testData\", testData);",
 							"",
-							"if (testData.commentsUserMakes[testData.counter]) ",
+							"if (testData.commentsByUser[testData.counter]) ",
 							"{",
 							"    pm.execution.setNextRequest(\"Delete user comments\");",
 							"} ",
@@ -3154,7 +3154,7 @@
 					"script": {
 						"exec": [
 							"let testData = pm.collectionVariables.get(\"testData\");\r",
-							"let comment = testData.commentsAdminMakes[testData.counter];\r",
+							"let comment = testData.commentsByAdmin[testData.counter];\r",
 							"\r",
 							"pm.variables.set(\"comment\", comment.comment);\r",
 							"pm.variables.set(\"userId\", comment.userId);\r",
@@ -3169,7 +3169,7 @@
 					"script": {
 						"exec": [
 							"let testData = pm.collectionVariables.get(\"testData\");\r",
-							"let comment = testData.commentsAdminMakes[testData.counter];\r",
+							"let comment = testData.commentsByAdmin[testData.counter];\r",
 							"\r",
 							"let response = pm.response;\r",
 							"let responseData = pm.response.json();\r",
@@ -3182,7 +3182,7 @@
 							"testData.counter++;\r",
 							"pm.collectionVariables.set(\"testData\",testData);\r",
 							"\r",
-							"if(testData.commentsAdminMakes[testData.counter])\r",
+							"if(testData.commentsByAdmin[testData.counter])\r",
 							"{\r",
 							"    pm.execution.setNextRequest(\"Create user comments\");\r",
 							"}\r",
@@ -3236,7 +3236,7 @@
 					"script": {
 						"exec": [
 							"let testData = pm.collectionVariables.get(\"testData\");\r",
-							"let comment = testData.commentsAdminMakes[testData.counter];\r",
+							"let comment = testData.commentsByAdmin[testData.counter];\r",
 							"\r",
 							"pm.variables.set(\"commentId\", comment.id); "
 						],
@@ -3249,7 +3249,7 @@
 					"script": {
 						"exec": [
 							"let testData = pm.collectionVariables.get(\"testData\");\r",
-							"let comment = testData.commentsAdminMakes[testData.counter];\r",
+							"let comment = testData.commentsByAdmin[testData.counter];\r",
 							"\r",
 							"let response = pm.response;\r",
 							"let responseData = pm.response.json();\r",
@@ -3269,7 +3269,7 @@
 							"testData.counter++;\r",
 							"pm.collectionVariables.set(\"testData\",testData);\r",
 							"\r",
-							"if(testData.commentsAdminMakes[testData.counter])\r",
+							"if(testData.commentsByAdmin[testData.counter])\r",
 							"{\r",
 							"    pm.execution.setNextRequest(\"Get visitor comments\");\r",
 							"}\r",
@@ -3315,7 +3315,7 @@
 					"script": {
 						"exec": [
 							"let testData = pm.collectionVariables.get(\"testData\");\r",
-							"let comment = testData.commentsAdminMakes[testData.counter];\r",
+							"let comment = testData.commentsByAdmin[testData.counter];\r",
 							"\r",
 							"pm.variables.set(\"commentid\", comment.id); "
 						],
@@ -3328,7 +3328,7 @@
 					"script": {
 						"exec": [
 							"let testData = pm.collectionVariables.get(\"testData\");\r",
-							"let comment = testData.commentsAdminMakes[testData.counter];\r",
+							"let comment = testData.commentsByAdmin[testData.counter];\r",
 							"\r",
 							"let response = pm.response;\r",
 							"let responseData = pm.response.json();\r",
@@ -3341,7 +3341,7 @@
 							"testData.counter++;\r",
 							"pm.collectionVariables.set(\"testData\",testData);\r",
 							"\r",
-							"if(testData.commentsAdminMakes[testData.counter])\r",
+							"if(testData.commentsByAdmin[testData.counter])\r",
 							"{\r",
 							"    pm.execution.setNextRequest(\"Change visitor comments\");\r",
 							"}\r",
@@ -3396,7 +3396,7 @@
 					"script": {
 						"exec": [
 							"let testData = pm.collectionVariables.get(\"testData\");",
-							"let comment = testData.commentsAdminMakes[testData.counter];",
+							"let comment = testData.commentsByAdmin[testData.counter];",
 							"",
 							"pm.environment.set(\"usercommentId\", comment.id);"
 						],
@@ -3409,7 +3409,7 @@
 					"script": {
 						"exec": [
 							"let testData = pm.collectionVariables.get(\"testData\");",
-							"let comment = testData.commentsAdminMakes[testData.counter];",
+							"let comment = testData.commentsByAdmin[testData.counter];",
 							"",
 							"let response = pm.response;",
 							"let responseData = pm.response.json();",
@@ -3422,7 +3422,7 @@
 							"testData.counter++;",
 							"pm.collectionVariables.set(\"testData\", testData);",
 							"",
-							"if (testData.commentsAdminMakes[testData.counter]) ",
+							"if (testData.commentsByAdmin[testData.counter]) ",
 							"{",
 							"    pm.execution.setNextRequest(\"Delete visitor comments\");",
 							"} ",
@@ -3604,9 +3604,9 @@
 					"script": {
 						"exec": [
 							"let testData = pm.collectionVariables.get(\"testData\");",
-							"let comment = testData.commentsUserMakes[testData.counter];",
+							"let comment = testData.commentsByUser[testData.counter];",
 							"",
-							"console.log(\"I AM A COMMENT FRAM DA UZER\", comment);",
+							"console.log(\"WHATS UP\", comment);",
 							"pm.environment.set(\"userCommentId\", comment.id);"
 						],
 						"type": "text/javascript",
@@ -3618,7 +3618,7 @@
 					"script": {
 						"exec": [
 							"let testData = pm.collectionVariables.get(\"testData\");",
-							"let comment = testData.commentsUserMakes[testData.counter];",
+							"let comment = testData.commentsByUser[testData.counter];",
 							"",
 							"let response = pm.response;",
 							"let responseData = pm.response.json();",
@@ -3636,7 +3636,7 @@
 							"testData.counter++;",
 							"pm.collectionVariables.set(\"testData\", testData);",
 							"",
-							"if (testData.commentsUserMakes[testData.counter]) ",
+							"if (testData.commentsByUser[testData.counter]) ",
 							"{",
 							"    pm.execution.setNextRequest(\"Delete user comments\");",
 							"} ",
@@ -3683,9 +3683,9 @@
 					"script": {
 						"exec": [
 							"let testData = pm.collectionVariables.get(\"testData\");",
-							"let comment = testData.commentsAdminMakes[testData.counter];",
+							"let comment = testData.commentsByAdmin[testData.counter];",
 							"",
-							"console.log(\"DA WHOLE TEST DATA BEFORE FINAL DELETE\",testData);",
+							"console.log(\"All test data before deleted\",testData);",
 							"pm.environment.set(\"commentId\", comment.id);"
 						],
 						"type": "text/javascript",
@@ -3697,7 +3697,7 @@
 					"script": {
 						"exec": [
 							"let testData = pm.collectionVariables.get(\"testData\");",
-							"let comment = testData.commentsAdminMakes[testData.counter];",
+							"let comment = testData.commentsByAdmin[testData.counter];",
 							"",
 							"let response = pm.response;",
 							"let responseData = pm.response.json();",
@@ -3715,7 +3715,7 @@
 							"testData.counter++;",
 							"pm.collectionVariables.set(\"testData\", testData);",
 							"",
-							"if (testData.commentsAdminMakes[testData.counter]) ",
+							"if (testData.commentsByAdmin[testData.counter]) ",
 							"{",
 							"    pm.execution.setNextRequest(\"Delete admin comments\");",
 							"} ",

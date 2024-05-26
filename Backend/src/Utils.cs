@@ -1,17 +1,9 @@
 namespace WebApp;
 public static class Utils
 {
-    // Read all mock users from file
     private static readonly Arr mockUsers = JSON.Parse(
         File.ReadAllText(FilePath("json", "mock-users.json"))
     );
-
-    // Read all bad words from file and sort from longest to shortest
-    // if we didn't sort we would often get "---ing" instead of "---" etc.
-    // (Comment out the sort - run the unit tests and see for yourself...)
-    private static readonly Arr badWords = ((Arr)JSON.Parse(
-        File.ReadAllText(FilePath("json", "bad-words.json"))
-    )).Sort((a, b) => ((string)b).Length - ((string)a).Length);
 
     public static bool IsPasswordGoodEnough(string password)
     {
@@ -22,14 +14,17 @@ public static class Utils
             && password.Any(x => !Char.IsLetterOrDigit(x));
     }
 
-    public static bool IsPasswordGoodEnoughRegexVersion(string password)
+    public static bool PasswordGoodEnough(string password)
     {
-        // See: https://dev.to/rasaf_ibrahim/write-regex-password-validation-like-a-pro-5175
         var pattern = @"^(?=.*[0-9])(?=.*[a-zåäö])(?=.*[A-ZÅÄÖ])(?=.*\W).{8,}$";
         return Regex.IsMatch(password, pattern);
     }
 
-    public static string RemoveBadWords(string comment, string replaceWith = "---")
+    private static readonly Arr badWords = ((Arr)JSON.Parse(
+        File.ReadAllText(FilePath("json", "bad-words.json"))
+    )).Sort((a, b) => ((string)b).Length - ((string)a).Length);
+
+    public static string DeleteBadWords(string comment, string replaceWith = "---")
     {
         comment = " " + comment;
         replaceWith = " " + replaceWith + "$1";
@@ -37,9 +32,9 @@ public static class Utils
         {
             var pattern = @$" {bad}([\,\.\!\?\:\; ])";
             comment = Regex.Replace(
-                comment, pattern, replaceWith, RegexOptions.IgnoreCase);
+            comment, pattern, replaceWith, RegexOptions.IgnoreCase);
         });
-        return comment[1..];
+            return comment[1..];
     }
 
     public static Arr CreateMockUsers()
@@ -52,18 +47,62 @@ public static class Utils
                 @"INSERT INTO users(firstName,lastName,email,password)
                 VALUES($firstName, $lastName, $email, $password)
             ", user);
-            // If we get an error from the DB then we haven't added
-            // the mock users, if not we have so add to the successful list
+
             if (!result.HasKey("error"))
             {
-                // The specification says return the user list without password
                 user.Delete("password");
                 successFullyWrittenUsers.Push(user);
             }
         }
-        return successFullyWrittenUsers;
+                return successFullyWrittenUsers;
     }
 
-    // Now write the two last ones yourself!
-    // See: https://sys23m-jensen.lms.nodehill.se/uploads/videos/2021-05-18T15-38-54/sysa-23-presentation-2024-05-02-updated.html#8
+    public static Arr RemoveMockUsers()
+    {
+        var usersArray = JSON.Parse(File.ReadAllText(FilePath("json", "mock-users.json")));
+        var removedUsers = new Arr();
+
+        foreach (var user in usersArray)
+        {
+            var deletionResult = SQLQueryOne(
+            @"DELETE FROM users WHERE email = $email",
+            new { email = user.email }
+            );
+
+            if (!deletionResult.HasKey("error"))
+            {
+            user.Delete("password");
+            removedUsers.Push(user);
+            }
+        }
+            return removedUsers;
+    }
+
+    public static Obj CountDomainsFromUserEmails()
+    {
+        Arr users = SQLQuery("SELECT email FROM users");
+        Dictionary<string, int> domainCounts = new Dictionary<string, int>();
+
+        foreach (var user in users)
+        {
+            string email = user.email;
+            string[] parts = email.Split('@');
+            if (parts.Length == 2)
+            {
+                string domain = parts[1];
+                if (!domainCounts.ContainsKey(domain))
+                domainCounts[domain] = 1;
+                else
+                domainCounts[domain]++;
+            }
+        }
+
+        Obj result = Obj();
+        
+        foreach (var entry in domainCounts)
+        {
+            result[entry.Key] = entry.Value;
+        }
+            return result;
+    }
 }
