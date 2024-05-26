@@ -93,6 +93,7 @@ public class UtilsTest(Xlog Console)
     {
         Obj domainCounts = Utils.CountDomainsFromUserEmails();
         Arr users = SQLQuery("SELECT email FROM users");
+
         Dictionary<string, int> expectedCounts = new Dictionary<string, int>();
 
         foreach (var user in users)
@@ -104,9 +105,9 @@ public class UtilsTest(Xlog Console)
             {
                 string domain = parts[1];
                 if (!expectedCounts.ContainsKey(domain))
-                    expectedCounts[domain] = 1;
+                expectedCounts[domain] = 1;
                 else
-                    expectedCounts[domain]++;
+                expectedCounts[domain]++;
             }
         }
         
