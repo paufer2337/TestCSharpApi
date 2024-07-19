@@ -36,13 +36,13 @@
 # For a complete CI/CD sample to get started with GitHub Action workflows for Desktop Applications,
 # refer to https://github.com/microsoft/github-actions-for-desktop-apps
 
-name: .NET Core Desktop
+name: Run Unit tests & Endpoint testing
 
 on:
   push:
-    branches: [ "feature-2024-05-16" ]
+    branches: [ "workflows" ]
   pull_request:
-    branches: [ "feature-2024-05-16" ]
+    branches: [ "workflows" ]
 
 jobs:
 
