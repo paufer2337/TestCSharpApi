@@ -7,12 +7,12 @@ Feature: Display all products
 
   Examples:
     | product               |
-    | Belgisk Vallhund Malinois |
-    | Dobermann |
-    | Beauceron |
-    | Chodský pes |
-    | Australian Shepherd |
-    | Labrador Retriever |
-    | American Bully |
+    | Belgisk Malinois      |
+    | Dobermann             |
+    | Beauceron             |
+    | Chodský pes           |
+    | Australian Shepherd   |
+    | Labrador Retriever    |
+    | American Bully        |
     | Staffordshire Terrier |
-    | Fransk Bulldog |
+    | Fransk Bulldog        |
