@@ -1,9 +1,9 @@
 Feature: As user I want to be able to see the correct products listed when I have chosen a category so that I can easily filter the product list by category.
 
   Scenario: Check that each category shows the right products.
-    Given I am on the product page
-    When I choose a <category> from the selection
-    Then I should see the <product>
+    Given that I am currently on the homepage
+    When I select "<category>" from the category list
+    Then I should only see "<product>" of each category
 
     Examples:
     | category  | product               | price  |

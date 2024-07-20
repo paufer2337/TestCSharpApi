@@ -1,13 +1,13 @@
 import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
 
-Given('I am on the product page', () => {
+Given('that I am currently on the homepage', () => {
   cy.visit('/products');
 });
 
-When('I choose the category {string}', (category) => {
+When('I select {string} from the category list', (category) => {
   cy.get('#categories').select(category);
 });
 
-Then('I should see the product {string}', (productName) => {
+Then('I should only see {string} of each category', (productName) => {
   cy.get('.product .name').contains(productName);
 });
