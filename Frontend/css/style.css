@@ -1,5 +1,8 @@
+/* Import Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Rock+Salt&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Russo+One&display=swap');
 
+/* Global Styles */
 *,
 *:before,
 *:after {
@@ -14,16 +17,13 @@ body {
   background-size: cover;
   background-attachment: fixed;
   line-height: 140%;
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  font-size: 18px;
 }
 
 main {
   flex: 1;
-}
-
-body {
-  font-family: "Poppins", sans-serif;
-  margin: 0;
-  font-size: 18px;
 }
 
 header,
@@ -44,8 +44,11 @@ main article {
 }
 
 h1 {
-  font-size: 40px;
-  margin-bottom: 30px;
+  font-family: 'Rock Salt', sans-serif;
+  font-size: 60px; /* Increase size for a more prominent header */
+  letter-spacing: 2px; /* Add spacing between letters */
+  line-height: 1.2; /* Adjust line height if necessary */
+  margin-bottom: 40px; /* Adjust margin to maintain spacing */
 }
 
 p {
@@ -57,7 +60,6 @@ main article h1 {
 }
 
 .logo,
-header nav,
 footer section,
 main article {
   max-width: 900px;
@@ -74,16 +76,32 @@ main article {
   padding-bottom: 25px;
 }
 
+header {
+  width: 100%;
+}
+
+nav {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
 nav a {
-  display: inline-block;
   text-decoration: none;
-  padding: 10px 20px;
-  color: #555;
+  font-family: "Russo One", sans-serif; /* Change font here */
+  font-size: 20px; /* Change font size here */
+  color: #555; /* Change text color here */
+  margin: 0 15px; /* Adjust spacing between menu items */
 }
 
 nav a:hover,
 nav a.active {
-  color: #000;
+  color: orange;
+  text-shadow: 
+    -1px -1px 0 #000,  
+     1px -1px 0 #000,
+    -1px  1px 0 #000,
+     1px  1px 0 #000; /* Creates black outline */
   text-decoration: underline;
 }
 
@@ -93,12 +111,52 @@ nav a:first-of-type {
 
 .logo {
   text-decoration: none;
-  color: #000;
-  display: block;
-  font-family: 'Rock Salt';
-  font-size: 30px;
-  margin-top: 20px;
-  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  align-items: center; /* Center align the logo text */
+  font-family: 'Russo One', sans-serif;
+  font-size: 70px; /* Adjust size as needed */
+  letter-spacing: 3px; /* Add spacing between letters */
+  margin-top: 25px; /* Adjust margin to maintain spacing */
+  margin-bottom: 20px; /* Adjust margin to maintain spacing */
+  width: 100%; /* Ensures the logo takes full width of its container */
+}
+
+.logo-row {
+  display: inline-block; /* Ensure K9 and WORKDOG are on the same line */
+}
+
+.logo-part.orange {
+  color: #ff6f00; /* Vibrant sunset orange for K9 */
+  font-size: 110px; /* Increase font size for K9 */
+  text-shadow: 
+    -2px -2px 0 #000,  
+     2px -2px 0 #000,
+    -2px  2px 0 #000,
+     2px  2px 0 #000; /* Creates black outline */
+}
+
+.logo-part.black {
+  color: #000; /* Black color for WORKDOG */
+  font-size: 100px; /* Increase font size for WORKDOG */
+}
+
+.logo-part.white {
+  color: #fff; /* White color for WAREHOUSE */
+  display: block; /* Ensure WAREHOUSE is on a new line */
+  margin-top: 10px; /* Adds space between "K9 WORKDOG" and "WAREHOUSE" */
+  padding: 5px; /* Add padding to create space between text and border */
+  font-size: 55px; /* Smaller font size for WAREHOUSE */
+  text-shadow: 
+    -1px -1px 0 #000,  
+     1px -1px 0 #000,
+    -1px  1px 0 #000,
+     1px  1px 0 #000; /* Creates black outline */
+}
+
+.logo-row {
+  display: flex;
+  flex-direction: row; /* Align items in a row */
 }
 
 footer .logo {
@@ -166,20 +224,14 @@ select {
   text-align: right;
 }
 
-.product>div {
+.product > div {
   width: 45%;
   display: inline-block;
 }
 
-
-
-/* For a fixed header */
-/*header {
-  position: fixed;
-  width: 100%;
-  background-color: rgba(221, 221, 221);
+.product img {
+  width: 40%;
+  float: left;
+  margin-right: 20px;
+  border-radius: 10px;
 }
-
-main {
-  padding-top: 200px;
-}*/

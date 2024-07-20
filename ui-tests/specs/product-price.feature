@@ -8,10 +8,10 @@ Then the product "<productName>" should be shown with the price "<price>"
 Examples:
     | category  | productName           | price  |
     | Brukshund | Belgisk Malinois      | 25000  |
-    | Brukshund | Dobermann             | 27000  |
+    | Brukshund | Tysk Schäfer          | 27000  |
     | Brukshund | Beauceron             | 21000  |
     | Brukshund | Chodský pes           | 18000  |
-    | Brukshund | Australian Shepherd   | 22000  |
+    | Brukshund | Australian Kelpie     | 22000  |
     | Brukshund | Labrador Retriever    | 19000  |
     | Kamphund  | American Bully        | 20000  |
     | Kamphund  | Staffordshire Terrier | 15000  |

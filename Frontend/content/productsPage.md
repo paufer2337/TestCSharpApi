@@ -1,2 +1,2 @@
 # Products
-Our products are from Sweden, with proper Swedish names and descriptions. 😊 
+Our dogs are selectivly imported by certified working dog breeders within the service, military and police area 😊 

@@ -8,7 +8,7 @@ Feature: Display all products
   Examples:
     | product               |
     | Belgisk Malinois      |
-    | Dobermann             |
+    | Tysk Schäfer          |
     | Beauceron             |
     | Chodský pes           |
     | Australian Shepherd   |
