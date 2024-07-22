@@ -11,7 +11,7 @@ Feature: Display all products
     | Tysk Schäfer          |
     | Beauceron             |
     | Chodský pes           |
-    | Australian Shepherd   |
+    | Australian Kelpie     |
     | Labrador Retriever    |
     | American Bully        |
     | Staffordshire Terrier |
