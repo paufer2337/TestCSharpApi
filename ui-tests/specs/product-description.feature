@@ -7,7 +7,7 @@ Then the product "<productName>" should be displayed with the description "<desc
 
 Examples:
     | category  | productName           | description |
-    | Alla      | Belgisk Malinois      | Passar bra till brukssportens alla grenar. Det är en mångsidig  tävlings- och tjänstehund. |
+    | Alla      | Belgisk Malinois      | Passar bra till brukssportens alla grenar. Det är en mångsidig tävlings- och tjänstehund. |
     | Alla      | Tysk Schäfer          | Skarp och förarvek brukshund för tävling. Används även som tjänstehund av bland annat polisen. Rakryggade linjer. |
     | Alla      | Beauceron             | Krävande mångsysslare. Lämpar sig väl för bruksgrenar och vallning men också för hundsporter som agility och lydnad. |
     | Alla      | Chodský pes           | Alert, lättlärd och mångsidig träningskompis. Duktiga tjänstehundar i mindre format. |
