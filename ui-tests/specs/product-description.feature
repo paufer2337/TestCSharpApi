@@ -16,7 +16,7 @@ Examples:
     | Alla      | American Bully        | Stor XL Bully, trevlig barn-nanny och bra hund för drag-sporter. |
     | Alla      | Staffordshire Terrier | Energisk, följsam och sprallig glädjespridare! Passar Allround. |
     | Alla      | Fransk Bulldog        | Trevlig sällskapshund som även är arbetsvillig. |
-    | Brukshund | Belgisk Malinois      | Passar bra till brukssportens alla grenar. Det är en mångsidig  tävlings- och tjänstehund. |
+    | Brukshund | Belgisk Malinois      | Passar bra till brukssportens alla grenar. Det är en mångsidig tävlings- och tjänstehund. |
     | Brukshund | Tysk Schäfer          | Skarp och förarvek brukshund för tävling. Används även som tjänstehund av bland annat polisen. Rakryggade linjer. |
     | Brukshund | Beauceron             | Krävande mångsysslare. Lämpar sig väl för bruksgrenar och vallning men också för hundsporter som agility och lydnad. |
     | Brukshund | Chodský pes           | Alert, lättlärd och mångsidig träningskompis. Duktiga tjänstehundar i mindre format. |
