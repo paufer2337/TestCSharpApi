@@ -33,16 +33,16 @@
 # See "Build the Windows Application Packaging project" below to see how the secret is used.
 #
 # For more information on GitHub Actions, refer to https://github.com/features/actions
-# For a complete CI/CD sample to get started with GitHub Action workflows for Desktop Applications,
+# For a complete CI/CD sample to get started with GitHub Action main for Desktop Applications,
 # refer to https://github.com/microsoft/github-actions-for-desktop-apps
 
 name: Run Unit tests & Endpoint & Cypress testing
 
 on:
   push:
-    branches: [ "workflows" ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ "workflows" ]
+    branches: [ "main" ]
 
 jobs:
 
